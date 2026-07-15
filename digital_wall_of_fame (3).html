@@ -1,0 +1,594 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Digital Wall of Fame | PSG Polytechnic College</title>
+  <style>
+    /* ---------- reset & base ---------- */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+      background: #f8f6f2;
+      color: #1e1e1e;
+      line-height: 1.7;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 32px;
+    }
+
+    /* ---------- navigation ---------- */
+    .navbar {
+      background: #ffffff;
+      padding: 16px 0;
+      border-bottom: 1px solid #e8e2da;
+      position: sticky;
+      top: 0;
+      z-index: 200;
+      backdrop-filter: blur(8px);
+      background: rgba(255, 255, 255, 0.94);
+    }
+
+    .nav-container {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .logo {
+      font-size: 20px;
+      font-weight: 500;
+      letter-spacing: 0.5px;
+      color: #1a1a1a;
+      text-decoration: none;
+    }
+    .logo span {
+      color: #1a1a1a;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 36px;
+      align-items: center;
+    }
+    .nav-links a {
+      color: #4a4a4a;
+      text-decoration: none;
+      font-size: 13px;
+      font-weight: 450;
+      letter-spacing: 0.3px;
+      transition: color 0.2s;
+    }
+    .nav-links a:hover {
+      color: #b8954b;
+    }
+
+    /* ---------- campus dropdown ---------- */
+    .nav-dropdown { position: relative; }
+    .nav-dropdown > a {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      cursor: pointer;
+    }
+    .nav-dropdown > a::after {
+      content: "▾";
+      font-size: 11px;
+      transition: transform 0.2s;
+    }
+    .nav-dropdown.active > a::after { transform: rotate(180deg); }
+    .dropdown-menu {
+      display: none;
+      position: absolute;
+      top: calc(100% + 14px);
+      left: 50%;
+      transform: translateX(-50%);
+      background: #ffffff;
+      border: 1px solid #eae4dc;
+      border-top: 3px solid #b8954b;
+      border-radius: 10px;
+      min-width: 210px;
+      z-index: 100;
+      box-shadow: 0 12px 30px rgba(0,0,0,0.08);
+      overflow: hidden;
+    }
+    .dropdown-menu.open { display: block; }
+    .dropdown-menu a {
+      display: block;
+      padding: 12px 20px;
+      color: #4a4a4a !important;
+      font-size: 13px !important;
+      letter-spacing: 0.3px;
+      border-bottom: 1px solid #f0ebe3;
+      transition: background 0.2s, color 0.2s, padding-left 0.2s;
+    }
+    .dropdown-menu a:last-child { border-bottom: none; }
+    .dropdown-menu a:hover {
+      background: #f8f6f2;
+      color: #b8954b !important;
+      padding-left: 26px;
+    }
+
+    /* ---------- hero ---------- */
+    .hero {
+      background: linear-gradient(150deg, #ede8df 0%, #f8f5f0 100%);
+      padding: 72px 0 60px;
+      text-align: center;
+      border-bottom: 1px solid #e0dad2;
+    }
+    .hero .badge {
+      display: inline-block;
+      background: #b8954b;
+      color: #fff;
+      font-size: 11px;
+      letter-spacing: 3px;
+      padding: 4px 22px;
+      border-radius: 40px;
+      text-transform: uppercase;
+      margin-bottom: 16px;
+    }
+    .hero h1 {
+      font-size: 56px;
+      font-weight: 350;
+      font-family: 'Times New Roman', Georgia, serif;
+      color: #1a1a1a;
+      letter-spacing: -0.5px;
+    }
+    .hero .gold-line {
+      width: 80px;
+      height: 3px;
+      background: #b8954b;
+      margin: 18px auto 20px;
+      border-radius: 4px;
+    }
+    .hero p {
+      font-size: 19px;
+      color: #3d3d3d;
+      max-width: 720px;
+      margin: 0 auto;
+      font-style: italic;
+    }
+    .hero p strong { color: #b8954b; font-style: normal; }
+
+    /* ---------- quick stats ---------- */
+    .stats-row {
+      display: flex;
+      justify-content: center;
+      gap: 12px 16px;
+      flex-wrap: wrap;
+      margin-top: 24px;
+    }
+    .tag {
+      background: #f0ebe3;
+      padding: 6px 18px;
+      border-radius: 40px;
+      font-size: 14px;
+      color: #1e1e1e;
+      display: inline-block;
+      border: 1px solid #e0dad2;
+      text-align: center;
+    }
+    .tag-gold {
+      background: #b8954b;
+      color: #fff;
+      border-color: #b8954b;
+    }
+
+    /* ---------- sections ---------- */
+    .section {
+      padding: 48px 0 40px;
+      border-bottom: 1px solid #e8e2da;
+    }
+    .section:last-of-type {
+      border-bottom: none;
+    }
+    .section-title {
+      font-size: 34px;
+      font-weight: 350;
+      font-family: 'Times New Roman', Georgia, serif;
+      margin-bottom: 28px;
+      color: #1a1a1a;
+      border-left: 6px solid #b8954b;
+      padding-left: 20px;
+    }
+
+    /* ---------- filter bar ---------- */
+    .filter-bar {
+      padding: 24px 0;
+      position: sticky;
+      top: 65px;
+      z-index: 100;
+      background: rgba(248, 246, 242, 0.95);
+      backdrop-filter: blur(6px);
+      border-bottom: 1px solid #e8e2da;
+    }
+    .filter-tabs {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+    .filter-tab {
+      background: #f0ebe3;
+      padding: 7px 20px;
+      border-radius: 40px;
+      font-size: 13px;
+      font-weight: 500;
+      color: #1e1e1e;
+      border: 1px solid #e0dad2;
+      cursor: pointer;
+      letter-spacing: 0.3px;
+      transition: 0.2s;
+      text-transform: uppercase;
+    }
+    .filter-tab:hover {
+      border-color: #b8954b;
+      color: #b8954b;
+    }
+    .filter-tab.active {
+      background: #b8954b;
+      color: #fff;
+      border-color: #b8954b;
+    }
+
+    /* ---------- grid ---------- */
+    .grid-auto-3 {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 30px;
+    }
+
+    /* ---------- award card ---------- */
+    .card {
+      background: #ffffff;
+      border-radius: 18px;
+      padding: 20px;
+      box-shadow: 0 2px 16px rgba(0, 0, 0, 0.03);
+      border: 1px solid #eae4dc;
+      transition: 0.2s;
+    }
+    .award-card {
+      display: block;
+      cursor: pointer;
+    }
+    .award-card:hover {
+      border-color: #b8954b;
+      box-shadow: 0 10px 28px rgba(0,0,0,0.08);
+      transform: translateY(-4px);
+    }
+
+    .img-ph {
+      background: #eae4dc;
+      border: 3px solid #d6cdbc;
+      border-radius: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      padding: 6px;
+      position: relative;
+      aspect-ratio: 3/4;
+    }
+    .award-card:hover .img-ph { border-color: #b8954b; }
+    .img-ph img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: top;
+      border-radius: 12px;
+      display: block;
+      transition: transform 0.5s;
+    }
+    .award-card:hover .img-ph img { transform: scale(1.05); }
+
+    .zoom-overlay {
+      position: absolute;
+      inset: 6px;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba(26,26,26,0);
+      transition: background 0.3s;
+    }
+    .award-card:hover .zoom-overlay { background: rgba(26,26,26,0.3); }
+    .zoom-icon {
+      width: 44px; height: 44px;
+      background: #ffffff;
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      opacity: 0; transform: scale(0.7);
+      transition: all 0.3s;
+      font-size: 18px;
+    }
+    .award-card:hover .zoom-icon { opacity: 1; transform: scale(1); background: #b8954b; }
+
+    .award-info { padding: 16px 4px 4px; }
+    .award-number {
+      font-size: 11px;
+      letter-spacing: 1.5px;
+      color: #b8954b;
+      font-weight: 600;
+      text-transform: uppercase;
+      margin-bottom: 6px;
+    }
+    .award-title {
+      font-size: 16px;
+      font-weight: 600;
+      color: #1a1a1a;
+      line-height: 1.4;
+    }
+    .award-tag { margin-top: 10px; }
+
+    /* ---------- lightbox ---------- */
+    .lightbox {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(20,18,15,0.92);
+      z-index: 1000;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+    }
+    .lightbox.open { display: flex; }
+    .lightbox-inner {
+      position: relative;
+      max-width: 680px;
+      width: 100%;
+      animation: lbIn 0.3s ease;
+    }
+    @keyframes lbIn { from { opacity:0; transform: scale(0.9); } to { opacity:1; transform: scale(1); } }
+    .lightbox-inner img {
+      width: 100%;
+      max-height: 78vh;
+      object-fit: contain;
+      object-position: top;
+      display: block;
+      border-radius: 16px;
+      border: 3px solid #b8954b;
+      background: #fff;
+    }
+    .lightbox-caption {
+      background: #ffffff;
+      color: #b8954b;
+      padding: 14px 20px;
+      font-size: 14px;
+      font-weight: 600;
+      letter-spacing: 0.5px;
+      text-align: center;
+      border-radius: 0 0 12px 12px;
+    }
+    .lightbox-close {
+      position: absolute;
+      top: -44px;
+      right: 0;
+      color: #f0ebe3;
+      font-size: 34px;
+      cursor: pointer;
+      line-height: 1;
+      transition: color 0.2s;
+    }
+    .lightbox-close:hover { color: #b8954b; }
+    .lightbox-nav {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 12px;
+    }
+    .lb-btn {
+      background: #b8954b;
+      color: #FFFFFF;
+      border: none;
+      border-radius: 40px;
+      padding: 8px 24px;
+      font-size: 13px;
+      letter-spacing: 0.5px;
+      cursor: pointer;
+      transition: 0.2s;
+    }
+    .lb-btn:hover { background: #1a1a1a; }
+
+    /* ---------- footer ---------- */
+    .footer {
+      background: #ece8e1;
+      padding: 44px 0;
+      margin-top: 20px;
+      border-top: 1px solid #d6cdbc;
+      text-align: center;
+      color: #4a4a4a;
+    }
+    .footer .quote {
+      font-style: italic;
+      color: #b8954b;
+      margin-top: 10px;
+      font-size: 14px;
+    }
+
+    /* ---------- responsive ---------- */
+    @media (max-width: 768px) {
+      .container { padding: 0 20px; }
+      .nav-links a:not(.nav-dropdown a) { display: none; }
+      .nav-links { gap: 0; }
+      .hero h1 { font-size: 38px; }
+      .section-title { font-size: 28px; }
+      .grid-auto-3 { grid-template-columns: 1fr 1fr; }
+      .filter-bar { top: 60px; }
+    }
+    @media (max-width: 480px) {
+      .hero h1 { font-size: 30px; }
+      .grid-auto-3 { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav class="navbar">
+  <div class="container nav-container">
+    <a href="students_union.html" class="logo">PSG <span>POLYTECHNIC COLLEGE</span></a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="container">
+    <div class="badge">Campus</div>
+    <h1>Digital Wall of Fame</h1>
+    <div class="gold-line"></div>
+    <p><strong>"Winners Never Quit</strong> — and Quitters Never Win<strong>"</strong></p>
+    <div class="stats-row">
+      <span class="tag tag-gold">17 Awards &amp; Honours</span>
+      <span class="tag">82+ Years of Excellence</span>
+      <span class="tag">Established 1939</span>
+    </div>
+  </div>
+</section>
+
+<!-- FILTER -->
+<div class="filter-bar">
+  <div class="container">
+    <div class="filter-tabs">
+      <button class="filter-tab active" onclick="filterAwards('all', this)">All Awards</button>
+      <button class="filter-tab" onclick="filterAwards('iste', this)">ISTE</button>
+      <button class="filter-tab" onclick="filterAwards('aicte', this)">AICTE</button>
+      <button class="filter-tab" onclick="filterAwards('nss', this)">NSS / NCC</button>
+      <button class="filter-tab" onclick="filterAwards('institutional', this)">Institutional</button>
+      <button class="filter-tab" onclick="filterAwards('individual', this)">Individual</button>
+    </div>
+  </div>
+</div>
+
+<div class="container">
+
+  <!-- CONTENT -->
+  <div class="section">
+    <h2 class="section-title">Hall of Honours</h2>
+    <div class="grid-auto-3" id="awardsGrid"></div>
+  </div>
+
+</div>
+
+<!-- LIGHTBOX -->
+<div class="lightbox" id="lightbox" onclick="closeLightboxOnBg(event)">
+  <div class="lightbox-inner" id="lightboxInner">
+    <span class="lightbox-close" onclick="closeLightbox()">×</span>
+    <img id="lbImg" src="" alt="">
+    <div class="lightbox-caption" id="lbCaption"></div>
+    <div class="lightbox-nav">
+      <button class="lb-btn" onclick="lbNavigate(-1)">← Prev</button>
+      <button class="lb-btn" onclick="lbNavigate(1)">Next →</button>
+    </div>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <div class="container">
+    <p>© 2026 PSG Polytechnic College. All Rights Reserved.</p>
+    <div class="quote">"Let there be charity so that others can share my family's prosperity" — Shri P S Govindaswamy Naidu</div>
+  </div>
+</footer>
+
+<script>
+    const awards = [
+        { title: "ISTE Award 2016", img: "https://www.psgpolytech.ac.in/img/fame/f3.jpg",  tag: "2016", category: "iste" },
+        { title: "ISTE – Best Polytechnic College Award 2018", img: "https://www.psgpolytech.ac.in/img/fame/f5.jpg", tag: "2018", category: "iste" },
+        { title: "NDL Certificate", img: "https://www.psgpolytech.ac.in/img/fame/f12.jpg", tag: "National Digital Library", category: "institutional" },
+        { title: "ISTE Institutional Membership", img: "https://www.psgpolytech.ac.in/img/fame/f13.jpg", tag: "Membership", category: "iste" },
+        { title: "IPR Certificate — Banana Fibre Extraction Machine", img: "https://www.psgpolytech.ac.in/img/fame/f6.jpg", tag: "Patent", category: "institutional" },
+        { title: "Certificate of Appreciation by Skill India", img: "https://www.psgpolytech.ac.in/img/fame/f7.jpg", tag: "Skill India", category: "institutional" },
+        { title: "Road Safety Award", img: "https://www.psgpolytech.ac.in/img/fame/f16.jpg", tag: "Road Safety", category: "institutional" },
+        { title: "NIPAM Award", img: "https://www.psgpolytech.ac.in/img/fame/f14.jpg", tag: "NIPAM", category: "institutional" },
+        { title: "Certificate of Appreciation — AICTE", img: "https://www.psgpolytech.ac.in/img/fame/f10.jpg", tag: "AICTE", category: "aicte" },
+        { title: "AICTE-ECI-ISTE Chhatra Vishwakarma Award 2018", img: "https://www.psgpolytech.ac.in/img/fame/f4.jpg", tag: "2018", category: "aicte" },
+        { title: "Certification of Appreciation by IRCS", img: "https://www.psgpolytech.ac.in/img/fame/f8.jpg", tag: "Red Cross", category: "nss" },
+        { title: "Interact Club Certificate of Organisation", img: "https://www.psgpolytech.ac.in/img/fame/f15.jpg", tag: "Club", category: "institutional" },
+        { title: "Outstanding Engineer Award — Dr. B. Giriraj, Principal", img: "https://www.psgpolytech.ac.in/img/fame/f9.jpg", tag: "Individual Award", category: "individual" },
+        { title: "Infinium", img: "https://www.psgpolytech.ac.in/img/fame/f17.jpg", tag: "Achievement", category: "institutional" },
+        { title: "Best NSS Unit Award 2014", img: "https://www.psgpolytech.ac.in/img/fame/f1.jpg", tag: "2014 · NSS", category: "nss" },
+        { title: "SPCU – Best Performing Institution 2013–2017", img: "https://www.psgpolytech.ac.in/img/fame/f2.jpg", tag: "2013–2017", category: "institutional" },
+        { title: "National Teachers Award 2023 — Dr. Brindha", img: "https://www.psgpolytech.ac.in/img/fame/f11.jpg", tag: "2023 · Individual", category: "individual" },
+    ];
+
+    let currentIndex = 0;
+    let visibleAwards = [...awards];
+
+    function renderAwards(list) {
+        const grid = document.getElementById('awardsGrid');
+        grid.innerHTML = '';
+        list.forEach((award, i) => {
+            const card = document.createElement('div');
+            card.className = 'card award-card';
+            card.dataset.index = i;
+            card.onclick = () => openLightbox(i);
+            card.innerHTML = `
+                <div class="img-ph">
+                    <img src="${award.img}" alt="${award.title}" loading="lazy"
+                         onerror="this.src=''; this.parentElement.style.background='#1a1a1a'">
+                    <div class="zoom-overlay">
+                        <div class="zoom-icon">🔍</div>
+                    </div>
+                </div>
+                <div class="award-info">
+                    <div class="award-number">Award · ${String(i+1).padStart(2,'0')}</div>
+                    <div class="award-title">${award.title}</div>
+                    <div class="award-tag"><span class="tag">${award.tag}</span></div>
+                </div>
+            `;
+            grid.appendChild(card);
+        });
+    }
+
+    function filterAwards(cat, btn) {
+        document.querySelectorAll('.filter-tab').forEach(t => t.classList.remove('active'));
+        btn.classList.add('active');
+        visibleAwards = cat === 'all' ? [...awards] : awards.filter(a => a.category === cat);
+        renderAwards(visibleAwards);
+    }
+
+    function openLightbox(i) {
+        currentIndex = i;
+        const a = visibleAwards[i];
+        document.getElementById('lbImg').src = a.img;
+        document.getElementById('lbCaption').textContent = a.title;
+        document.getElementById('lightbox').classList.add('open');
+        document.body.style.overflow = 'hidden';
+    }
+
+    function closeLightbox() {
+        document.getElementById('lightbox').classList.remove('open');
+        document.body.style.overflow = 'auto';
+    }
+
+    function closeLightboxOnBg(e) {
+        if (e.target === document.getElementById('lightbox')) closeLightbox();
+    }
+
+    function lbNavigate(dir) {
+        currentIndex = (currentIndex + dir + visibleAwards.length) % visibleAwards.length;
+        openLightbox(currentIndex);
+    }
+
+    document.addEventListener('keydown', e => {
+        const lb = document.getElementById('lightbox');
+        if (!lb.classList.contains('open')) return;
+        if (e.key === 'Escape') closeLightbox();
+        if (e.key === 'ArrowRight') lbNavigate(1);
+        if (e.key === 'ArrowLeft') lbNavigate(-1);
+    });
+
+    // Initial render
+    renderAwards(awards);
+
+</script>
+
+</body>
+</html>

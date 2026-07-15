@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>STPDC | PSG Polytechnic College</title>
+<style>
+  *{margin:0;padding:0;box-sizing:border-box;}
+  body{font-family:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;background:#f8f6f2;color:#1e1e1e;line-height:1.7;}
+  .container{max-width:1200px;margin:0 auto;padding:0 32px;}
+
+  /* NAV */
+  .navbar{background:rgba(255,255,255,.94);padding:16px 0;border-bottom:1px solid #e8e2da;position:sticky;top:0;z-index:200;backdrop-filter:blur(8px);}
+  .nav-container{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px;}
+  .logo{font-size:20px;font-weight:500;letter-spacing:.5px;color:#1a1a1a;text-decoration:none;}
+  .nav-links{display:flex;gap:22px;align-items:center;flex-wrap:wrap;}
+  .nav-links>a{color:#4a4a4a;text-decoration:none;font-size:13px;font-weight:450;letter-spacing:.3px;transition:color .2s;cursor:pointer;white-space:nowrap;}
+  .nav-links>a:hover,.nav-links>a.active-nav{color:#b8954b;}
+
+  /* HERO */
+  .hero{background:linear-gradient(150deg,#ede8df 0%,#f8f5f0 100%);padding:72px 0 60px;text-align:center;border-bottom:1px solid #e0dad2;}
+  .hero .badge{display:inline-block;background:#b8954b;color:#fff;font-size:11px;letter-spacing:3px;padding:4px 22px;border-radius:40px;text-transform:uppercase;margin-bottom:16px;}
+  .hero h1{font-size:52px;font-weight:350;font-family:'Times New Roman',Georgia,serif;color:#1a1a1a;letter-spacing:-.5px;}
+  .hero .gold-line{width:80px;height:3px;background:#b8954b;margin:18px auto 20px;border-radius:4px;}
+  .hero p{font-size:18px;color:#3d3d3d;max-width:720px;margin:0 auto;}
+  .stats-row{display:flex;justify-content:center;gap:12px 16px;flex-wrap:wrap;margin-top:24px;}
+  .tag{background:#f0ebe3;padding:6px 18px;border-radius:40px;font-size:14px;color:#1e1e1e;display:inline-block;border:1px solid #e0dad2;}
+  .tag-gold{background:#b8954b;color:#fff;border-color:#b8954b;}
+
+  /* SECTIONS */
+  .section{padding:48px 0 40px;border-bottom:1px solid #e8e2da;}
+  .section:last-of-type{border-bottom:none;}
+  .section-title{font-size:30px;font-weight:350;font-family:'Times New Roman',Georgia,serif;margin-bottom:26px;color:#1a1a1a;border-left:6px solid #b8954b;padding-left:20px;}
+
+  /* BREADCRUMB */
+  .breadcrumb{font-size:12px;color:#8a8a8a;letter-spacing:.3px;padding:18px 0 0;}
+  .breadcrumb span{color:#b8954b;}
+
+  /* CARD BASE */
+  .card{background:#fff;border-radius:18px;padding:26px;box-shadow:0 2px 16px rgba(0,0,0,.03);border:1px solid #eae4dc;transition:.2s;}
+  .card:hover{border-color:#b8954b;}
+  .grid-auto-3{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:26px;}
+  .grid-auto-6{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:18px;}
+  .grid-2{display:grid;grid-template-columns:1fr 1fr;gap:30px;}
+
+  /* PANELS */
+  .panel{display:none;}
+  .panel.active{display:block;}
+
+  .about-text{font-size:15px;color:#3d3d3d;margin-bottom:14px;}
+  .about-text strong{color:#b8954b;}
+
+  /* TABLE */
+  table.lib-table{width:100%;border-collapse:collapse;background:#fff;border-radius:14px;overflow:hidden;box-shadow:0 2px 16px rgba(0,0,0,.03);border:1px solid #eae4dc;}
+  table.lib-table th{background:#b8954b;color:#fff;padding:13px 18px;font-size:12px;letter-spacing:1px;text-transform:uppercase;text-align:left;}
+  table.lib-table td{padding:12px 18px;font-size:14px;color:#3d3d3d;border-bottom:1px solid #f0ebe3;}
+  table.lib-table tr:last-child td{border-bottom:none;}
+  table.lib-table tr:hover td{background:#f8f6f2;}
+
+  /* ACTIVITY CARD */
+  .book-card{border-left:4px solid #b8954b;}
+  .book-acc{font-size:11px;letter-spacing:1px;color:#b8954b;font-weight:600;text-transform:uppercase;margin-bottom:6px;}
+  .book-title{font-size:15px;font-weight:600;color:#1a1a1a;margin-bottom:8px;line-height:1.4;}
+  .book-meta{font-size:13px;color:#6a6a6a;line-height:1.8;}
+  .link-row{display:flex;align-items:center;justify-content:space-between;gap:16px;border:1px solid #eae4dc;border-radius:14px;padding:12px 18px;background:#fff;text-decoration:none;transition:.25s;color:#1a1a1a;margin-top:10px;}
+  .link-row:hover{border-color:#b8954b;transform:translateX(4px);box-shadow:0 6px 18px rgba(0,0,0,.06);}
+  .link-row-arrow{color:#b8954b;font-size:18px;}
+
+  /* TEAM */
+  .team-card{text-align:center;overflow:hidden;}
+  .team-photo-round{width:96px;height:96px;border-radius:50%;overflow:hidden;margin:0 auto 14px;background:#eae4dc;border:2px solid #d6cdbc;}
+  .team-photo-round img{width:100%;height:100%;object-fit:cover;}
+  .team-name{font-size:15px;font-weight:600;color:#1a1a1a;}
+  .team-role{font-size:12px;letter-spacing:1px;color:#b8954b;text-transform:uppercase;margin:4px 0 4px;}
+  .team-qual{font-size:13px;color:#6a6a6a;}
+  .team-contact{font-size:12px;color:#8a8a8a;margin-top:6px;}
+  .team-contact a{color:#b8954b;text-decoration:none;}
+
+  /* FLEX WRAP TAGS */
+  .flex-wrap{display:flex;flex-wrap:wrap;gap:12px 14px;}
+
+  /* POLICY LISTS */
+  .policy-list{list-style:none;counter-reset:policy;margin-top:4px;}
+  .policy-list li{position:relative;padding-left:34px;margin-bottom:12px;font-size:15px;color:#3d3d3d;counter-increment:policy;}
+  .policy-list li::before{content:counter(policy);position:absolute;left:0;top:0;width:22px;height:22px;background:#f0ebe3;border:1px solid #e0dad2;color:#b8954b;font-size:12px;font-weight:700;border-radius:50%;display:flex;align-items:center;justify-content:center;}
+  .bullet-list{list-style:none;margin-top:4px;}
+  .bullet-list li{position:relative;padding-left:20px;margin-bottom:10px;font-size:15px;color:#3d3d3d;}
+  .bullet-list li::before{content:'—';position:absolute;left:0;color:#b8954b;}
+
+  /* QUICKLINK CARD */
+  .qlink-card .qlink-title{font-size:15px;font-weight:600;color:#1a1a1a;margin-bottom:6px;line-height:1.4;}
+  .qlink-card .qlink-desc{font-size:13px;color:#6a6a6a;margin-bottom:4px;}
+
+  /* CONTACT */
+  .contact-row{display:flex;gap:14px;margin-bottom:16px;}
+  .contact-row:last-child{margin-bottom:0;}
+  .c-icon{font-size:18px;flex-shrink:0;}
+  .c-label{font-size:11px;letter-spacing:1.5px;color:#b8954b;text-transform:uppercase;font-weight:600;margin-bottom:2px;}
+  .c-value{font-size:14px;color:#3d3d3d;line-height:1.6;}
+  .c-value a{color:#b8954b;text-decoration:none;}
+
+  /* NOTICE */
+  .notice-card{border-left:4px solid #c99a3f;background:#fbf6ea;}
+  .notice-card .about-text{margin-bottom:0;}
+
+  /* FOOTER */
+  .footer{background:#ece8e1;padding:44px 0;margin-top:20px;border-top:1px solid #d6cdbc;text-align:center;color:#4a4a4a;}
+  .footer .quote{font-style:italic;color:#b8954b;margin-top:10px;font-size:14px;}
+
+  @media(max-width:900px){.grid-2{grid-template-columns:1fr;}}
+  @media(max-width:768px){.container{padding:0 20px;}.hero h1{font-size:34px;}.section-title{font-size:24px;}}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav class="navbar">
+  <div class="container nav-container">
+    <a href="#" class="logo" style="display:flex;align-items:center;gap:10px;" onclick="showPanel('policy', document.getElementById('nav-policy'));return false;">
+      <img src="https://www.psgpolytech.ac.in/STPDC/images/STPDC_logo.png" alt="STPDC" style="height:36px;width:auto;" onerror="this.style.display='none'">
+      STPDC — PSG-PTC
+    </a>
+    <div class="nav-links">
+      <a onclick="showPanel('policy', this)" class="active-nav" id="nav-policy">STPDC POLICY</a>
+      <a onclick="showPanel('members', this)">MEMBERS</a>
+      <a onclick="showPanel('sop', this)">SOP'S &amp; GUIDELINES</a>
+      <a onclick="showPanel('activities', this)">ACTIVITIES</a>
+      <a onclick="showPanel('reports', this)">ANNUAL REPORTS</a>
+      <a onclick="showPanel('forms', this)">STPDC FORMS</a>
+      <a onclick="showPanel('quicklinks', this)">QUICK LINKS</a>
+    </div>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero" id="hero-block">
+  <div class="container">
+    <div class="badge">STPDC</div>
+    <h1>Staff Training &amp; Professional Development Cell</h1>
+    <div class="gold-line"></div>
+    <p>PSG Polytechnic College, Coimbatore – 641004 (Autonomous and an ISO 9001:2015 Certified Institution)</p>
+    <div class="stats-row">
+      <span class="tag tag-gold">Faculty Development</span>
+      <span class="tag">ISO 9001:2015 Certified</span>
+      <span class="tag">Autonomous Institution</span>
+    </div>
+  </div>
+</section>
+
+<div class="container">
+
+<!-- ===================== STPDC POLICY ===================== -->
+<div class="panel active" id="panel-policy">
+  <div class="breadcrumb">Home <span>›</span> STPDC Policy</div>
+
+  <div class="section">
+    <h2 class="section-title">Introduction</h2>
+    <div class="card">
+      <p class="about-text">Any organization's future depends on their faculty, who in turn depend on the knowledge, skills, expertise and motivation. Development and training is a continuous and systematic process. The process of training should necessarily be directed to give every teacher a sense of professionalism, excellence, motivation and customer satisfaction.</p>
+      <p class="about-text">The teacher is a professional, who teaches all other professions. So the faculty development programme is essential to achieve the organization's major and long-term goals. PSG PTC has formulated a policy in this regard to promote and nourish the faculty of the college for continuous improvement.</p>
+    </div>
+  </div>
+
+  <div class="section">
+    <h2 class="section-title">Objectives</h2>
+    <div class="card">
+      <ol class="policy-list">
+        <li>To enhance the quality of professional teachers with in-service faculty development training for their role as teachers.</li>
+        <li>To sensitize teachers about new concepts in teaching and assessment methods.</li>
+        <li>Develop conducive environment for acquisition of knowledge and clinical skills required for performing the role of competent and effective teacher, administrator, researcher and mentor.</li>
+        <li>To create &amp; provide opportunities to faculty to represent institute/university at various academic &amp; non-academic platforms.</li>
+        <li>To develop, implement &amp; strengthen various incentive schemes for faculty development.</li>
+        <li>To motivate teachers for educational research and publications by developing research culture in the College.</li>
+        <li>To strengthen personal interaction through effective communication skill.</li>
+        <li>To organize faculty development programmes at College/State level.</li>
+      </ol>
+    </div>
+  </div>
+
+  <div class="section">
+    <h2 class="section-title">Practices</h2>
+    <div class="card">
+      <ol class="policy-list">
+        <li>STPDC in consultation with the institute level sub-committee shall be responsible for the functioning of the STPDC towards the achievement of the above mentioned objectives.</li>
+        <li>To enhance education technology skills of faculties, the STPDC shall observe &amp; guide institutional education units to conduct teacher training programs regularly.</li>
+        <li>STPDC shall invite and involve experts/specialists for faculty development from internal and/or external sources.</li>
+        <li>STPDC shall also conduct training sessions focusing on enhancing overall professional &amp; personal development of faculty.</li>
+        <li>STPDC shall promote the faculties of each constituent unit to participate in seminars, conferences, workshops, fellowships, and educational programmes.</li>
+        <li>STPDC shall contribute to policy development for College sponsorship to faculty members for national &amp; international presentations.</li>
+        <li>STPDC shall encourage faculty to take up advanced educational courses/fellowships.</li>
+        <li>FDC shall guide &amp; encourage the organization of academic programs for Post Graduate students.</li>
+        <li>STPDC shall maintain all relevant data, records and documentation related to faculty activities.</li>
+        <li>STPDC shall conduct audits and submit analyzed reports to SPCU once a year at the end of the academic year.</li>
+      </ol>
+    </div>
+  </div>
+
+  <div class="section">
+    <h2 class="section-title">Functioning</h2>
+    <div class="card">
+      <ul class="bullet-list">
+        <li>STPDC meets once every two months and additional meetings are held as needed.</li>
+        <li>A predetermined agenda is circulated to all members; deliberation on agenda issues during the meeting is done, followed by action taken.</li>
+        <li>Office copies of all proceedings are maintained in STPDC records.</li>
+      </ul>
+      <p class="about-text" style="margin-top:14px;">For queries, please reach the STPDC office through the college's official contact channel.</p>
+    </div>
+  </div>
+</div>
+
+<!-- ===================== MEMBERS ===================== -->
+<div class="panel" id="panel-members">
+  <div class="breadcrumb">Home <span>›</span> STPDC Members</div>
+  <div class="section">
+    <h2 class="section-title">STPDC Members</h2>
+    <div class="grid-auto-3">
+      <div class="card team-card">
+        <div class="team-photo-round"><img src="https://www.psgpolytech.ac.in/STPDC/images/members/image.png" alt="Dr. A. Rajamani" onerror="this.parentElement.style.background='#eae4dc'"></div>
+        <div class="team-name">Dr. A. Rajamani</div>
+        <div class="team-role">Thrust Area Manager</div>
+        <div class="team-contact"><a href="mailto:arm.dee@psgpolytech.ac.in">arm.dee@psgpolytech.ac.in</a></div>
+        <div class="team-contact">Contact: +91 9843871174</div>
+      </div>
+      <div class="card team-card">
+        <div class="team-photo-round"><img src="https://www.psgpolytech.ac.in/STPDC/images/members/priya.png" alt="Ms. D. Priya" onerror="this.parentElement.style.background='#eae4dc'"></div>
+        <div class="team-name">Ms. D. Priya</div>
+        <div class="team-role">Backup Manager</div>
+        <div class="team-contact"><a href="mailto:dpm.dcn@psgpolytech.ac.in">dpm.dcn@psgpolytech.ac.in</a></div>
+      </div>
+      <div class="card team-card">
+        <div class="team-photo-round"><img src="https://www.psgpolytech.ac.in/STPDC/images/members/premlatha.png" alt="Dr. N. Premalatha" onerror="this.parentElement.style.background='#eae4dc'"></div>
+        <div class="team-name">Dr. N. Premalatha</div>
+        <div class="team-qual">Department of Basic Science</div>
+        <div class="team-contact"><a href="mailto:npl.dca@psgpolytech.ac.in">npl.dca@psgpolytech.ac.in</a></div>
+      </div>
+      <div class="card team-card">
+        <div class="team-photo-round"><img src="https://www.psgpolytech.ac.in/STPDC/images/members/Saravanan.jpg" alt="Mr. M. Saravanakumar" onerror="this.parentElement.style.background='#eae4dc'"></div>
+        <div class="team-name">Mr. M. Saravanakumar</div>
+        <div class="team-qual">Department of Mechanical</div>
+        <div class="team-contact"><a href="mailto:pbm.deg@psgpolytech.ac.in">pbm.deg@psgpolytech.ac.in</a></div>
+      </div>
+      <div class="card team-card">
+        <div class="team-photo-round"><img src="https://www.psgpolytech.ac.in/STPDC/images/members/BALA%20MUTHU.png" alt="Ms. P. Bala Muthu Marieswari" onerror="this.parentElement.style.background='#eae4dc'"></div>
+        <div class="team-name">Ms. P. Bala Muthu Marieswari</div>
+        <div class="team-qual">Department of English</div>
+        <div class="team-contact"><a href="mailto:pbm.deg@psgpolytech.ac.in">pbm.deg@psgpolytech.ac.in</a></div>
+      </div>
+      <div class="card team-card">
+        <div class="team-photo-round"><img src="https://www.psgpolytech.ac.in/STPDC/images/members/Krithika.png" alt="Ms. M. Krithika" onerror="this.parentElement.style.background='#eae4dc'"></div>
+        <div class="team-name">Ms. M. Krithika</div>
+        <div class="team-qual">Department of Computer Engineering</div>
+        <div class="team-contact"><a href="mailto:pbm.deg@psgpolytech.ac.in">pbm.deg@psgpolytech.ac.in</a></div>
+      </div>
+      <div class="card team-card">
+        <div class="team-photo-round"><img src="https://www.psgpolytech.ac.in/STPDC/images/members/KANTHIMATHY_enhanced.png" alt="Ms. J. Kanthimathy" onerror="this.parentElement.style.background='#eae4dc'"></div>
+        <div class="team-name">Ms. J. Kanthimathy</div>
+        <div class="team-qual">Department of Physics</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ===================== SOP's & GUIDELINES ===================== -->
+<div class="panel" id="panel-sop">
+  <div class="breadcrumb">Home <span>›</span> SOP's &amp; Guidelines</div>
+  <div class="section">
+    <h2 class="section-title">SOP's &amp; Guidelines</h2>
+    <div class="card">
+      <p class="about-text">Click below to view the SOP's &amp; Guidelines.</p>
+      <a class="link-row" href="https://www.psgpolytech.ac.in/STPDC/" target="_blank"><span>Click Here</span><span class="link-row-arrow">→</span></a>
+    </div>
+  </div>
+</div>
+
+<!-- ===================== ACTIVITIES ===================== -->
+<div class="panel" id="panel-activities">
+  <div class="breadcrumb">Home <span>›</span> Activities</div>
+  <div class="section">
+    <h2 class="section-title">Activities</h2>
+    <div class="grid-auto-3">
+      <div class="card book-card">
+        <div class="book-acc">Activities 2024</div>
+        <div class="book-title">Faculty development activities and achievements</div>
+        <a class="link-row" href="https://drive.google.com/uc?export=download&id=18EcPVLxBNllLlaxoAcTJp6gu_6-ZuETt" target="_blank"><span>Download Activities</span><span class="link-row-arrow">→</span></a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ===================== ANNUAL REPORTS ===================== -->
+<div class="panel" id="panel-reports">
+  <div class="breadcrumb">Home <span>›</span> Annual Reports</div>
+  <div class="section">
+    <h2 class="section-title">Annual Reports</h2>
+    <div class="grid-auto-3">
+      <div class="card book-card">
+        <div class="book-acc">Annual Report 2022</div>
+        <div class="book-title">Faculty development activities and achievements</div>
+        <a class="link-row" href="https://drive.google.com/uc?export=download&id=1foocXfhYPiriOchnWI9XpcYjRkitz5yW" target="_blank"><span>Download Report</span><span class="link-row-arrow">→</span></a>
+      </div>
+      <div class="card book-card">
+        <div class="book-acc">Annual Report 2023</div>
+        <div class="book-title">Faculty development activities and achievements</div>
+        <a class="link-row" href="https://drive.google.com/uc?export=download&id=1SlnK48jCUGbUsbbpM5Xrwj9YZxth4CUw" target="_blank"><span>Download Report</span><span class="link-row-arrow">→</span></a>
+      </div>
+      <div class="card book-card">
+        <div class="book-acc">Annual Report 2024</div>
+        <div class="book-title">Faculty development activities and achievements</div>
+        <a class="link-row" href="https://drive.google.com/uc?export=download&id=15GAIlQahhLB_thX7Qgop9TFpYjWyMUrf" target="_blank"><span>Download Report</span><span class="link-row-arrow">→</span></a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ===================== STPDC FORMS ===================== -->
+<div class="panel" id="panel-forms">
+  <div class="breadcrumb">Home <span>›</span> STPDC Forms</div>
+  <div class="section">
+    <h2 class="section-title">STPDC Forms</h2>
+    <div class="grid-auto-3">
+      <div class="card book-card">
+        <div class="book-acc">Forms · 2024</div>
+        <div class="book-title">Application form for Attending Academic Event 2024</div>
+        <a class="link-row" href="https://drive.google.com/uc?export=download&id=1GGqT2X0xqFa_pvJNgWKQZwGN0Uqsw74o" target="_blank"><span>Download Forms</span><span class="link-row-arrow">→</span></a>
+      </div>
+      <div class="card book-card">
+        <div class="book-acc">Forms · 2024</div>
+        <div class="book-title">Application form for Availing Incentive – Paper or Poster Presentation 2024</div>
+        <a class="link-row" href="https://drive.google.com/uc?export=download&id=1jN9IDdqw-oy6QtzW4n79PLEV1oe6zFKL" target="_blank"><span>Download Forms</span><span class="link-row-arrow">→</span></a>
+      </div>
+      <div class="card book-card">
+        <div class="book-acc">Forms · 2024</div>
+        <div class="book-title">Application form for Organizing Academic Event 2024</div>
+        <a class="link-row" href="https://drive.google.com/uc?export=download&id=1cqiJ2mudoqI7gO20TgG3-haE-o58vntN" target="_blank"><span>Download Forms</span><span class="link-row-arrow">→</span></a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ===================== QUICK LINKS ===================== -->
+<div class="panel" id="panel-quicklinks">
+  <div class="breadcrumb">Home <span>›</span> Quick Links</div>
+  <div class="section">
+    <h2 class="section-title">Quick Links</h2>
+    <div class="grid-auto-3">
+      <div class="card qlink-card">
+        <div class="qlink-title">National Institute of Technical Teachers Training and Research, Chennai</div>
+        <div class="qlink-desc">Faculty Development Initiatives and Achievements</div>
+        <a class="link-row" href="https://www.nitttrc.ac.in/" target="_blank"><span>Click Here</span><span class="link-row-arrow">→</span></a>
+      </div>
+      <div class="card qlink-card">
+        <div class="qlink-title">National Institute of Technical Teachers Training and Research, Kolkata</div>
+        <div class="qlink-desc">Enhancing Teaching Skills and Professional Development</div>
+        <a class="link-row" href="http://www.nitttrkol.ac.in/" target="_blank"><span>Click Here</span><span class="link-row-arrow">→</span></a>
+      </div>
+      <div class="card qlink-card">
+        <div class="qlink-title">National Institute of Technical Teachers Training and Research, Bhopal</div>
+        <div class="qlink-desc">Training for Empowering Educators</div>
+        <a class="link-row" href="https://nitttrbpl.ac.in/" target="_blank"><span>Click Here</span><span class="link-row-arrow">→</span></a>
+      </div>
+      <div class="card qlink-card">
+        <div class="qlink-title">Government College of Technology — Faculty Development Programmes</div>
+        <div class="qlink-desc">Faculty Development Programmes at GCT</div>
+        <a class="link-row" href="https://gct.ac.in/59/fdp-programmes" target="_blank"><span>Click Here</span><span class="link-row-arrow">→</span></a>
+      </div>
+      <div class="card qlink-card">
+        <div class="qlink-title">National Institute of Technical Teachers Training and Research, Chandigarh</div>
+        <div class="qlink-desc">Innovative Teaching and Research Development</div>
+        <a class="link-row" href="https://www.nitttrchd.ac.in/" target="_blank"><span>Click Here</span><span class="link-row-arrow">→</span></a>
+      </div>
+      <div class="card qlink-card">
+        <div class="qlink-title">PSG Centre for Advanced Research and Education</div>
+        <div class="qlink-desc">Fostering Academic Excellence through Faculty Development</div>
+        <a class="link-row" href="https://psgcare.org/" target="_blank"><span>Click Here</span><span class="link-row-arrow">→</span></a>
+      </div>
+      <div class="card qlink-card">
+        <div class="qlink-title">Mahatma Hansraj Faculty Development Centre</div>
+        <div class="qlink-desc">Faculty Development Programmes at Mahatma Hansraj</div>
+        <a class="link-row" href="https://nmtt.gov.in/home" target="_blank"><span>Click Here</span><span class="link-row-arrow">→</span></a>
+      </div>
+    </div>
+  </div>
+</div>
+
+</div>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <div class="container">
+    <p>© 2026 PSG Polytechnic College. All Rights Reserved.</p>
+    <div class="quote">"Let there be charity so that others can share my family's prosperity" — Shri P S Govindaswamy Naidu</div>
+  </div>
+</footer>
+
+<script>
+  /* ---------- NAV LOGIC ---------- */
+  function showPanel(panelId, clickedLink){
+    document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));
+    const panel = document.getElementById('panel-' + panelId);
+    if(panel) panel.classList.add('active');
+
+    document.getElementById('hero-block').style.display = (panelId === 'policy') ? '' : 'none';
+
+    document.querySelectorAll('.nav-links > a').forEach(a=>a.classList.remove('active-nav'));
+    if(clickedLink) clickedLink.classList.add('active-nav');
+    if(panelId === 'policy') document.getElementById('nav-policy').classList.add('active-nav');
+
+    window.scrollTo({top:0, behavior:'smooth'});
+  }
+</script>
+
+</body>
+</html>

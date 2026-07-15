@@ -1,0 +1,941 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Library | PSG Polytechnic College</title>
+<style>
+  *{margin:0;padding:0;box-sizing:border-box;}
+  body{font-family:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;background:#f8f6f2;color:#1e1e1e;line-height:1.7;}
+  .container{max-width:1200px;margin:0 auto;padding:0 32px;}
+
+  /* NAV */
+  .navbar{background:rgba(255,255,255,.94);padding:16px 0;border-bottom:1px solid #e8e2da;position:sticky;top:0;z-index:200;backdrop-filter:blur(8px);}
+  .nav-container{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px;}
+  .logo{font-size:20px;font-weight:500;letter-spacing:.5px;color:#1a1a1a;text-decoration:none;}
+  .nav-links{display:flex;gap:26px;align-items:center;flex-wrap:wrap;}
+  .nav-links>a{color:#4a4a4a;text-decoration:none;font-size:13px;font-weight:450;letter-spacing:.3px;transition:color .2s;cursor:pointer;white-space:nowrap;}
+  .nav-links>a:hover,.nav-links>a.active-nav{color:#b8954b;}
+  .nav-dropdown{position:relative;}
+  .nav-dropdown>a{display:flex;align-items:center;gap:5px;color:#4a4a4a;text-decoration:none;font-size:13px;font-weight:450;letter-spacing:.3px;cursor:pointer;white-space:nowrap;}
+  .nav-dropdown>a:hover,.nav-dropdown.active>a{color:#b8954b;}
+  .nav-dropdown>a::after{content:"▾";font-size:11px;transition:transform .2s;}
+  .nav-dropdown.active>a::after{transform:rotate(180deg);}
+  .dropdown-menu{display:none;position:absolute;top:calc(100% + 14px);left:0;background:#fff;border:1px solid #eae4dc;border-top:3px solid #b8954b;border-radius:10px;min-width:240px;z-index:100;box-shadow:0 12px 30px rgba(0,0,0,.08);overflow:hidden;}
+  .dropdown-menu.open{display:block;}
+  .dropdown-menu a{display:block;padding:11px 20px;color:#4a4a4a!important;font-size:13px!important;letter-spacing:.3px;border-bottom:1px solid #f0ebe3;transition:.2s;cursor:pointer;}
+  .dropdown-menu a:last-child{border-bottom:none;}
+  .dropdown-menu a:hover,.dropdown-menu a.active-sub{background:#f8f6f2;color:#b8954b!important;padding-left:26px;}
+
+  /* HERO */
+  .hero{background:linear-gradient(150deg,#ede8df 0%,#f8f5f0 100%);padding:72px 0 60px;text-align:center;border-bottom:1px solid #e0dad2;}
+  .hero .badge{display:inline-block;background:#b8954b;color:#fff;font-size:11px;letter-spacing:3px;padding:4px 22px;border-radius:40px;text-transform:uppercase;margin-bottom:16px;}
+  .hero h1{font-size:52px;font-weight:350;font-family:'Times New Roman',Georgia,serif;color:#1a1a1a;letter-spacing:-.5px;}
+  .hero .gold-line{width:80px;height:3px;background:#b8954b;margin:18px auto 20px;border-radius:4px;}
+  .hero p{font-size:18px;color:#3d3d3d;max-width:720px;margin:0 auto;}
+  .stats-row{display:flex;justify-content:center;gap:12px 16px;flex-wrap:wrap;margin-top:24px;}
+  .tag{background:#f0ebe3;padding:6px 18px;border-radius:40px;font-size:14px;color:#1e1e1e;display:inline-block;border:1px solid #e0dad2;}
+  .tag-gold{background:#b8954b;color:#fff;border-color:#b8954b;}
+
+  /* SECTIONS */
+  .section{padding:48px 0 40px;border-bottom:1px solid #e8e2da;}
+  .section:last-of-type{border-bottom:none;}
+  .section-title{font-size:30px;font-weight:350;font-family:'Times New Roman',Georgia,serif;margin-bottom:26px;color:#1a1a1a;border-left:6px solid #b8954b;padding-left:20px;}
+
+  /* BREADCRUMB */
+  .breadcrumb{font-size:12px;color:#8a8a8a;letter-spacing:.3px;padding:18px 0 0;}
+  .breadcrumb span{color:#b8954b;}
+
+  /* CARD BASE */
+  .card{background:#fff;border-radius:18px;padding:26px;box-shadow:0 2px 16px rgba(0,0,0,.03);border:1px solid #eae4dc;transition:.2s;}
+  .card:hover{border-color:#b8954b;}
+  .grid-auto-3{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:26px;}
+  .grid-2{display:grid;grid-template-columns:1fr 1fr;gap:30px;}
+
+  /* PANELS */
+  .panel{display:none;}
+  .panel.active{display:block;}
+
+  /* ABOUT/VISION */
+  .about-text{font-size:15px;color:#3d3d3d;margin-bottom:14px;}
+  .about-text strong{color:#b8954b;}
+  .vm-icon{font-size:26px;}
+  .vm-title{font-family:'Times New Roman',serif;font-size:19px;color:#1a1a1a;margin:10px 0 8px;}
+  .vm-list{list-style:none;padding-left:2px;}
+  .vm-list li{padding-left:22px;position:relative;margin-bottom:8px;color:#3d3d3d;font-size:14px;}
+  .vm-list li::before{content:"◆";color:#b8954b;position:absolute;left:0;font-size:11px;}
+
+  /* TIMELINE */
+  .timeline{position:relative;padding-left:36px;max-width:820px;}
+  .timeline::before{content:'';position:absolute;left:9px;top:6px;bottom:6px;width:2px;background:#e0dad2;}
+  .t-item{position:relative;margin-bottom:30px;}
+  .t-dot{position:absolute;left:-36px;top:2px;width:16px;height:16px;border-radius:50%;background:#b8954b;border:3px solid #fff;box-shadow:0 0 0 2px #b8954b;}
+  .t-text{font-size:15px;color:#3d3d3d;}
+
+  /* TABLE */
+  table.lib-table{width:100%;border-collapse:collapse;background:#fff;border-radius:14px;overflow:hidden;box-shadow:0 2px 16px rgba(0,0,0,.03);border:1px solid #eae4dc;}
+  table.lib-table th{background:#b8954b;color:#fff;padding:13px 18px;font-size:12px;letter-spacing:1px;text-transform:uppercase;text-align:left;}
+  table.lib-table td{padding:12px 18px;font-size:14px;color:#3d3d3d;border-bottom:1px solid #f0ebe3;}
+  table.lib-table tr:last-child td{border-bottom:none;}
+  table.lib-table tr:hover td{background:#f8f6f2;}
+
+  /* RULES */
+  .rules-list{list-style:none;display:flex;flex-direction:column;gap:12px;}
+  .rules-list li{display:flex;gap:10px;font-size:14px;color:#3d3d3d;line-height:1.65;}
+  .rules-list li::before{content:"→";color:#b8954b;flex-shrink:0;font-weight:700;}
+
+  /* TEAM */
+  .team-card{text-align:center;overflow:hidden;}
+  .team-photo{width:100%;aspect-ratio:1;border-radius:14px;overflow:hidden;background:#eae4dc;border:3px solid #d6cdbc;margin-bottom:14px;}
+  .team-photo img{width:100%;height:100%;object-fit:cover;object-position:top;}
+  .team-name{font-size:16px;font-weight:600;color:#1a1a1a;}
+  .team-role{font-size:12px;letter-spacing:1px;color:#b8954b;text-transform:uppercase;margin:4px 0 6px;}
+  .team-qual{font-size:13px;color:#6a6a6a;}
+
+  /* SERVICE CARDS */
+  .service-icon{font-size:30px;margin-bottom:10px;}
+  .service-title{font-size:17px;font-weight:600;color:#1a1a1a;margin-bottom:8px;}
+  .service-desc{font-size:14px;color:#4a4a4a;margin-bottom:6px;}
+  .service-list{list-style:none;margin-top:8px;}
+  .service-list li{font-size:13px;color:#6a6a6a;padding-left:18px;position:relative;margin-bottom:5px;}
+  .service-list li::before{content:"•";color:#b8954b;position:absolute;left:0;}
+
+  /* FLEX WRAP TAGS */
+  .flex-wrap{display:flex;flex-wrap:wrap;gap:12px 14px;}
+
+  /* BOOK CARDS */
+  .book-card{border-left:4px solid #b8954b;}
+  .book-acc{font-size:11px;letter-spacing:1px;color:#b8954b;font-weight:600;text-transform:uppercase;margin-bottom:6px;}
+  .book-title{font-size:15px;font-weight:600;color:#1a1a1a;margin-bottom:8px;line-height:1.4;}
+  .book-meta{font-size:13px;color:#6a6a6a;line-height:1.8;}
+
+  /* LINK ROW */
+  .link-row{display:flex;align-items:center;justify-content:space-between;gap:16px;border:1px solid #eae4dc;border-radius:14px;padding:16px 22px;background:#fff;text-decoration:none;transition:.25s;color:#1a1a1a;}
+  .link-row:hover{border-color:#b8954b;transform:translateX(4px);box-shadow:0 6px 18px rgba(0,0,0,.06);}
+  .link-row-name{font-size:15px;font-weight:600;}
+  .link-row-arrow{color:#b8954b;font-size:18px;}
+
+  /* CONTACT */
+  .contact-row{display:flex;gap:14px;margin-bottom:16px;}
+  .contact-row:last-child{margin-bottom:0;}
+  .c-icon{font-size:18px;flex-shrink:0;}
+  .c-label{font-size:11px;letter-spacing:1.5px;color:#b8954b;text-transform:uppercase;font-weight:600;margin-bottom:2px;}
+  .c-value{font-size:14px;color:#3d3d3d;line-height:1.6;}
+  .c-value a{color:#b8954b;text-decoration:none;}
+  .map-frame{width:100%;height:280px;border:0;border-radius:14px;margin-top:20px;}
+
+  /* FOOTER */
+  .footer{background:#ece8e1;padding:44px 0;margin-top:20px;border-top:1px solid #d6cdbc;text-align:center;color:#4a4a4a;}
+  .footer .quote{font-style:italic;color:#b8954b;margin-top:10px;font-size:14px;}
+
+  /* PHOTO GALLERY + LIGHTBOX */
+  .photo-card{cursor:pointer;overflow:hidden;padding:10px;}
+  .photo-thumb{width:100%;aspect-ratio:4/3;border-radius:12px;overflow:hidden;background:#eae4dc;border:2px solid #d6cdbc;}
+  .photo-thumb img{width:100%;height:100%;object-fit:cover;transition:transform .4s;}
+  .photo-card:hover .photo-thumb img{transform:scale(1.06);}
+  .lightbox{display:none;position:fixed;inset:0;background:rgba(20,18,15,.92);z-index:1000;justify-content:center;align-items:center;padding:20px;}
+  .lightbox.open{display:flex;}
+  .lightbox-inner{position:relative;max-width:680px;width:100%;}
+  .lightbox-inner img{width:100%;max-height:78vh;object-fit:contain;display:block;border-radius:16px;border:3px solid #b8954b;background:#fff;}
+  .lightbox-close{position:absolute;top:-44px;right:0;color:#f0ebe3;font-size:34px;cursor:pointer;line-height:1;transition:color .2s;}
+  .lightbox-close:hover{color:#b8954b;}
+  .lightbox-nav{display:flex;justify-content:space-between;margin-top:12px;}
+  .lb-btn{background:#b8954b;color:#fff;border:none;border-radius:40px;padding:8px 24px;font-size:13px;letter-spacing:.5px;cursor:pointer;transition:.2s;}
+  .lb-btn:hover{background:#1a1a1a;}
+
+  /* CHATBOT WIDGET */
+  .chatbot-toggle{position:fixed;bottom:26px;right:26px;width:58px;height:58px;border-radius:50%;background:#b8954b;color:#fff;border:none;font-size:26px;cursor:pointer;box-shadow:0 8px 24px rgba(0,0,0,.25);z-index:500;display:flex;align-items:center;justify-content:center;transition:transform .2s;}
+  .chatbot-toggle:hover{transform:scale(1.08);}
+  .chatbot-panel{position:fixed;bottom:96px;right:26px;width:320px;max-height:70vh;background:#fff;border-radius:16px;box-shadow:0 20px 50px rgba(0,0,0,.25);z-index:500;display:none;flex-direction:column;overflow:hidden;border:1px solid #eae4dc;}
+  .chatbot-panel.open{display:flex;}
+  .chatbot-header{background:#b8954b;color:#fff;padding:16px 18px;display:flex;align-items:center;gap:10px;}
+  .chatbot-avatar{width:34px;height:34px;border-radius:50%;background:#fff;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0;}
+  .chatbot-title{font-size:14px;font-weight:700;}
+  .chatbot-sub{font-size:11px;opacity:.9;}
+  .chatbot-body{padding:16px;overflow-y:auto;flex:1;background:#f8f6f2;}
+  .chatbot-msg{background:#fff;border:1px solid #eae4dc;border-radius:12px;padding:10px 14px;font-size:13px;color:#3d3d3d;margin-bottom:12px;line-height:1.6;}
+  .chatbot-options{display:flex;flex-wrap:wrap;gap:8px;margin-top:4px;}
+  .chatbot-opt{background:#fff;border:1px solid #d6cdbc;border-radius:20px;padding:6px 14px;font-size:12px;color:#1a1a1a;cursor:pointer;transition:.2s;}
+  .chatbot-opt:hover{background:#b8954b;color:#fff;border-color:#b8954b;}
+  .chatbot-close-btn{margin-top:10px;width:100%;background:#b8954b;color:#fff;border:none;border-radius:20px;padding:9px;font-size:12px;font-weight:700;letter-spacing:.5px;cursor:pointer;}
+  .chatbot-close-btn:hover{background:#1a1a1a;}
+
+  @media(max-width:900px){.grid-2{grid-template-columns:1fr;}}
+  @media(max-width:768px){.container{padding:0 20px;}.hero h1{font-size:34px;}.section-title{font-size:24px;}}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav class="navbar">
+  <div class="container nav-container">
+    <a href="students_union.html" class="logo" style="display:flex;align-items:center;gap:10px;">
+      <img src="grd_library_logo.png" alt="Dr. GRD Memorial Library" style="height:36px;width:auto;" onerror="this.style.display='none'">
+      PSG POLYTECHNIC COLLEGE
+    </a>
+    <div class="nav-links">
+      <a onclick="showPanel('home', this)" class="active-nav" id="nav-home">HOME</a>
+
+      <div class="nav-dropdown" id="dd-about">
+        <a onclick="toggleDropdown(event,'dd-about')">ABOUT US</a>
+        <div class="dropdown-menu">
+          <a onclick="showPanel('about', this)">About Us</a>
+          <a onclick="showPanel('genesis', this)">Genesis &amp; Growth</a>
+          <a onclick="showPanel('committee', this)">Library Advisory Committee</a>
+          <a onclick="showPanel('circulation', this)">Circulation Policy</a>
+          <a onclick="showPanel('rules', this)">Rules &amp; Regulations</a>
+          <a onclick="showPanel('team', this)">Our Team</a>
+          <a onclick="showPanel('hours', this)">Working Hours</a>
+        </div>
+      </div>
+
+      <a onclick="showPanel('collection', this)">COLLECTION</a>
+
+      <div class="nav-dropdown" id="dd-services">
+        <a onclick="toggleDropdown(event,'dd-services')">SERVICES</a>
+        <div class="dropdown-menu">
+          <a onclick="showPanel('automation', this)">Library Automation</a>
+          <a onclick="showPanel('digital', this)">Digital Library</a>
+          <a onclick="showPanel('av', this)">Audio Visual Section</a>
+          <a onclick="showPanel('wifi', this)">Wi-Fi Facility</a>
+          <a onclick="showPanel('related', this)">Library Related Links</a>
+        </div>
+      </div>
+
+      <div class="nav-dropdown" id="dd-eresources">
+        <a onclick="toggleDropdown(event,'dd-eresources')">E-RESOURCES</a>
+        <div class="dropdown-menu">
+          <a href="https://nlist.inflibnet.ac.in/" target="_blank" rel="noopener noreferrer">Subscribed Resources</a>
+          <a href="https://ekumbh.aicte-india.org/dbook.php" target="_blank" rel="noopener noreferrer">AICTE Diploma E-Books</a>
+        </div>
+      </div>
+      <a href="http://ecampus.psgpolytech.ac.in/opac/" target="_blank">OPAC</a>
+
+      <div class="nav-dropdown" id="dd-ndli">
+        <a onclick="toggleDropdown(event,'dd-ndli')">NDLI</a>
+        <div class="dropdown-menu">
+          <a onclick="showPanel('ndli', this)">About NDLI Club with club authority details</a>
+          <a href="https://www.psgpolytech.ac.in/library/assets/img/NDLI/Club-Reg-Certificaate%202022%20-%2023.pdf" target="_blank" rel="noopener noreferrer">NDLI certificate (click to open)</a>
+          <a onclick="showPanel('photos', this)">Photos</a>
+        </div>
+      </div>
+
+      <div class="nav-dropdown" id="dd-download">
+        <a onclick="toggleDropdown(event,'dd-download')">DOWNLOAD</a>
+        <div class="dropdown-menu">
+          <a href="https://www.psgpolytech.ac.in/library/assets/files/BOOK%20RECOMM%20FORM.pdf" target="_blank" rel="noopener noreferrer">Book Recommendation Form (click to download)</a>
+          <a href="https://www.psgpolytech.ac.in/library/assets/files/JRL%20RECOMM%20FORM.pdf" target="_blank" rel="noopener noreferrer">Journal Recommendation Form (click to download)</a>
+          <a href="#">Library Brochure (click to download)</a>
+        </div>
+      </div>
+
+      <a onclick="showPanel('contact', this)">CONTACT</a>
+    </div>
+  </div>
+</nav>
+
+<!-- HERO (Home only) -->
+<section class="hero" id="hero-block">
+  <div class="container">
+    <div class="badge">Campus</div>
+    <h1>PSG Polytechnic College Library</h1>
+    <div class="gold-line"></div>
+    <p>Comfortable, user-friendly space enabling learning and knowledge creation — automated, digital, and always growing.</p>
+    <div class="stats-row">
+      <span class="tag tag-gold">43,128 Books</span>
+      <span class="tag">69 Journals</span>
+      <span class="tag">7 Newspapers</span>
+      <span class="tag">21 Digital Library Systems</span>
+    </div>
+  </div>
+</section>
+
+<div class="container">
+
+<!-- ===================== HOME ===================== -->
+<div class="panel active" id="panel-home">
+
+  <div class="section" style="padding-top:0;">
+    <div class="card" style="padding:12px;">
+      <video controls poster="https://www.psgpolytech.ac.in/library/assets/img/slider_1.jpeg" style="width:100%;border-radius:14px;display:block;">
+        <source src="https://www.psgpolytech.ac.in/library/assets/files/library_video.mp4" type="video/mp4">
+        Your browser does not support the video tag.
+      </video>
+    </div>
+  </div>
+
+  <div class="section">
+    <h2 class="section-title">About Our Library</h2>
+    <div class="grid-2">
+      <div class="card">
+        <div class="team-photo" style="aspect-ratio:4/3;border-radius:14px;">
+          <img src="https://www.psgpolytech.ac.in/library/assets/img/slider_1.jpeg" alt="PSG Polytechnic College Library" loading="lazy" onerror="this.parentElement.style.background='#eae4dc'">
+        </div>
+      </div>
+      <div class="card">
+        <p class="about-text">Library has a good &amp; rare collection of books, journals and magazines for students and staff members. Presently, above <strong>43 thousand books</strong>, <strong>69 national journals &amp; magazines</strong>, and CDs/DVDs and back issues of journals are in the library.</p>
+        <p class="about-text">The library is automated with an online portal accessible to all users. It runs on <strong>PSG-ILMS</strong>, an integrated Library Management System that supports all housekeeping operations. The Digital Library has <strong>21 computers</strong> with high-speed internet for academic purposes.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <h2 class="section-title">Vision &amp; Mission</h2>
+    <div class="grid-2">
+      <div class="card">
+        <div class="vm-icon">🎯</div>
+        <div class="vm-title">Vision</div>
+        <p style="font-size:14px;color:#3d3d3d;">The Library envisions that it continues to fulfil its unique role as a major contributor to the academic development of the student community — to enhance the scholarly pursuit of knowledge and skill, foster intellectual curiosity, and promote life-long learning.</p>
+      </div>
+      <div class="card">
+        <div class="vm-icon">📖</div>
+        <div class="vm-title">Mission</div>
+        <ul class="vm-list">
+          <li>To acquire and maintain adequate information resources.</li>
+          <li>To effectively retrieve developments in the application of engineering and technology.</li>
+          <li>To provide state-of-the-art technology for users to support life-long learning.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <h2 class="section-title">Writing Tools</h2>
+    <div class="flex-wrap">
+      <a class="tag tag-gold" style="text-decoration:none;" href="https://www.grammarly.com/" target="_blank">1. Grammarly — Online Grammar Checker</a>
+      <span class="tag">2. iThenticate (Turnitin) — Online Plagiarism Checker</span>
+    </div>
+  </div>
+
+  <div class="section">
+    <h2 class="section-title">Newspapers <span style="font-size:16px;color:#8a8a8a;">(preview)</span></h2>
+    <div class="flex-wrap" id="newspaperPreview"></div>
+    <p style="margin-top:16px;"><a onclick="showPanel('related', null)" style="color:#b8954b;font-size:13px;cursor:pointer;">See all library related links →</a></p>
+  </div>
+
+  <div class="section">
+    <h2 class="section-title">New Arrivals <span style="font-size:16px;color:#8a8a8a;">(latest 3)</span></h2>
+    <div class="grid-auto-3" id="arrivalsPreview"></div>
+  </div>
+
+  <div class="section">
+    <h2 class="section-title">Reports</h2>
+    <a class="link-row" href="https://www.psgpolytech.ac.in/library/assets/files/PTC%20LIBRARY%20Report%202023-24.pdf" target="_blank">
+      <div><div class="link-row-name">📋 Annual Library Report 2023–24</div><div style="font-size:12px;color:#8a8a8a;margin-top:4px;">Click to download PDF</div></div>
+      <div class="link-row-arrow">→</div>
+    </a>
+  </div>
+
+</div>
+
+<!-- ===================== ABOUT US ===================== -->
+<div class="panel" id="panel-about">
+  <div class="breadcrumb">Home <span>›</span> About Us</div>
+  <div class="section">
+    <h2 class="section-title">About Us</h2>
+    <div class="card">
+      <p class="about-text">Our Library has a rich collection of books and journals catering to students and faculty members. Presently, over <strong>43 thousand books</strong>, <strong>449 CDs/DVDs</strong> and <strong>69 printed journals</strong> are possessed by the library.</p>
+      <p class="about-text">The library is automated having an online portal that can be easily accessed by the users. The library implemented <strong>PSG-ILMS</strong>, an integrated Library Management System that supports all housekeeping operations of the library.</p>
+      <p class="about-text">There is a separate Digital Library having <strong>21 computers</strong> running on high-speed internet. The library system and staff is meticulously focused on providing a comfortable, user-friendly environment that enables learning and knowledge creation.</p>
+    </div>
+  </div>
+</div>
+
+<!-- ===================== GENESIS & GROWTH ===================== -->
+<div class="panel" id="panel-genesis">
+  <div class="breadcrumb">Home <span>›</span> Genesis &amp; Growth</div>
+  <div class="section">
+    <h2 class="section-title">Genesis &amp; Growth</h2>
+    <div class="timeline">
+      <div class="t-item"><div class="t-dot"></div><div class="t-text"><strong>1939</strong> — The Library came into being with the establishment of PSG Polytechnic.</div></div>
+      <div class="t-item"><div class="t-dot"></div><div class="t-text"><strong>1956</strong> — Further expanded with the genesis of PSG College of Technology.</div></div>
+      <div class="t-item"><div class="t-dot"></div><div class="t-text">With recurring grants from the Government, generous Management contribution, and special interest taken by <strong>Dr. G. R. Damodaran</strong>, the Library was built up and equipped steadily and systematically.</div></div>
+      <div class="t-item"><div class="t-dot"></div><div class="t-text"><strong>3rd December 2014</strong> — A separate library was created for PSG Polytechnic College in I Block, 4th Floor.</div></div>
+      <div class="t-item"><div class="t-dot"></div><div class="t-text">The library currently holds resources above <strong>43 thousand books</strong>.</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- ===================== COMMITTEE ===================== -->
+<div class="panel" id="panel-committee">
+  <div class="breadcrumb">Home <span>›</span> Library Advisory Committee Members</div>
+  <div class="section">
+    <h2 class="section-title">Library Advisory Committee Members</h2>
+    <table class="lib-table">
+      <thead><tr><th>Name</th><th>Designation</th></tr></thead>
+      <tbody>
+        <tr><td>Dr. B. Giriraj, Principal, PSG PTC</td><td>Chairman</td></tr>
+        <tr><td>Mr. R. Ragupathy, Dean – Administration</td><td>Member</td></tr>
+        <tr><td>Dr. S. Brindha, Coordinator, Autonomous Functioning, PSG PTC</td><td>Member</td></tr>
+        <tr><td>Dr. V. Mohan Sivakumar, HoD, Mechanical Engineering</td><td>Member</td></tr>
+        <tr><td>Dr. M. Arasu, HoD, Foundry Technology</td><td>Member</td></tr>
+        <tr><td>Ms. S. Sasikala, HoD, Electrical &amp; Electronics Engineering</td><td>Member</td></tr>
+        <tr><td>Dr. M. Senthil Kumar, HoD, Textile Technology</td><td>Member</td></tr>
+        <tr><td>Dr. S. Sharmila, HoD, Electronics &amp; Communication Engineering</td><td>Member</td></tr>
+        <tr><td>Mr. S. Arivazhagan, HoD In-Charge, Basic Science</td><td>Member</td></tr>
+        <tr><td>Dr. B. Sathish Babu, Faculty Coordinator, Library</td><td>Member Secretary</td></tr>
+        <tr><td>Mr. R. Vijesh, Librarian</td><td>Member</td></tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- ===================== CIRCULATION POLICY ===================== -->
+<div class="panel" id="panel-circulation">
+  <div class="breadcrumb">Home <span>›</span> Circulation Policy — Book Eligibility</div>
+  <div class="section">
+    <h2 class="section-title">Book Eligibility</h2>
+    <table class="lib-table">
+      <thead><tr><th>Category</th><th>No. of Books</th><th>Issue Type</th><th>Holding Period</th></tr></thead>
+      <tbody>
+        <tr><td>Students</td><td>6</td><td>Normal<br>Over Night</td><td>15 Days<br>2 Days</td></tr>
+        <tr><td>Teaching Staff</td><td>9</td><td>Normal<br>Over Night<br>Semester Issue</td><td>15 Days<br>2 Days<br>90 Days</td></tr>
+        <tr><td>Non-Teaching Staff</td><td>3</td><td>Normal<br>Over Night</td><td>15 Days<br>2 Days</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="section">
+    <h2 class="section-title">Overdue Fine Details</h2>
+    <table class="lib-table">
+      <tbody>
+        <tr><td>Up to 20 days</td><td>Rs. 0.50 / day / book</td></tr>
+        <tr><td>From 21st day onwards</td><td>Rs. 5 / day / book</td></tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- ===================== RULES & REGULATIONS ===================== -->
+<div class="panel" id="panel-rules">
+  <div class="breadcrumb">Home <span>›</span> Rules &amp; Regulations</div>
+  <div class="section">
+    <h2 class="section-title">General</h2>
+    <div class="card">
+      <ul class="rules-list">
+        <li>Books taken from the library are to be returned within 15 days. Students/Staff should scan their ID card in the E-Gate Register scanner while entering the library.</li>
+        <li>Library users should possess their ID card while inside the library.</li>
+        <li>Books will be issued only on production of a bar-coded ID card.</li>
+        <li>All members must produce their ID card when the library staff demands it for checking.</li>
+        <li>Use of mobile phones is not allowed inside the library.</li>
+        <li>Complete silence is to be maintained inside the library. If conversation is necessary, it should be in a low tone only.</li>
+        <li>Personal belongings like files, folders, bags, jerkins, umbrellas, issued books, etc. are not allowed inside — they should be deposited at the security counter.</li>
+        <li>The library follows the Open Access System. Books/journals taken from the racks should be left on the tables — trained library assistants will replace them.</li>
+        <li>Students wearing shorts, pajamas, night dresses, round-neck or printed T-shirts are not allowed inside. Formal dress code applies.</li>
+        <li>The arrangement of chairs and furniture in the reading area should not be disturbed.</li>
+        <li>The librarian reserves the right to cancel the membership of any member found misbehaving or abusing library staff.</li>
+      </ul>
+    </div>
+  </div>
+  <div class="section">
+    <h2 class="section-title">Books Issued &amp; Returns</h2>
+    <div class="card">
+      <ul class="rules-list">
+        <li>Books are to be returned within 15 days or on/before the date on the due-date slip.</li>
+        <li>Borrowers must ensure the book is in good condition with page numbers intact.</li>
+        <li>Staff/students must return books whenever called by the librarian.</li>
+        <li>If a book is overdue, another book will not be issued.</li>
+        <li>Reference books &amp; non-book materials like CDs are issued for two days only.</li>
+        <li>The borrower is responsible for any loss caused to borrowed documents.</li>
+        <li>Library resources are national assets — all users must protect them against damage, mutilation and theft.</li>
+        <li>Users are allowed to photocopy required articles (not full books).</li>
+        <li>Digital library users must enroll in the entry register; downloading information is permitted.</li>
+        <li>Accessing unwanted/unnecessary information from the internet is strictly prohibited.</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<!-- ===================== OUR TEAM ===================== -->
+<div class="panel" id="panel-team">
+  <div class="breadcrumb">Home <span>›</span> Our Team</div>
+  <div class="section">
+    <h2 class="section-title">Our Team</h2>
+    <div class="grid-auto-3" id="teamGrid"></div>
+  </div>
+</div>
+
+<!-- ===================== WORKING HOURS ===================== -->
+<div class="panel" id="panel-hours">
+  <div class="breadcrumb">Home <span>›</span> Working Hours</div>
+  <div class="section">
+    <h2 class="section-title">Working Hours</h2>
+    <table class="lib-table">
+      <thead><tr><th>Duration</th><th>Timings</th></tr></thead>
+      <tbody>
+        <tr><td>Monday to Friday</td><td>08:30 AM – 05:30 PM</td></tr>
+        <tr><td>Saturdays</td><td>08:30 AM – 04:30 PM</td></tr>
+        <tr><td>1st &amp; 3rd Saturdays &amp; Public Holidays</td><td>08:30 AM – 01:00 PM</td></tr>
+      </tbody>
+    </table>
+    <p style="margin-top:16px;font-size:13px;color:#8a8a8a;">Changes in timings during the vacation period will be informed on the Library Notice Board and the <a href="http://ecampus.psgpolytech.ac.in/opac" target="_blank" style="color:#b8954b;">OPAC site</a>.</p>
+  </div>
+</div>
+
+<!-- ===================== COLLECTION ===================== -->
+<div class="panel" id="panel-collection">
+  <div class="breadcrumb">Home <span>›</span> Books &amp; Journal</div>
+  <div class="section">
+    <h2 class="section-title">Books &amp; Journal</h2>
+    <div class="grid-auto-3">
+      <div class="card" style="text-align:center;"><div style="font-family:'Times New Roman',serif;font-size:40px;color:#b8954b;font-weight:700;">43,128</div><div style="font-size:13px;letter-spacing:1px;text-transform:uppercase;color:#4a4a4a;margin-top:6px;">Books</div></div>
+      <div class="card" style="text-align:center;"><div style="font-family:'Times New Roman',serif;font-size:40px;color:#b8954b;font-weight:700;">69</div><div style="font-size:13px;letter-spacing:1px;text-transform:uppercase;color:#4a4a4a;margin-top:6px;">Journals</div></div>
+      <div class="card" style="text-align:center;"><div style="font-family:'Times New Roman',serif;font-size:40px;color:#b8954b;font-weight:700;">7</div><div style="font-size:13px;letter-spacing:1px;text-transform:uppercase;color:#4a4a4a;margin-top:6px;">Newspapers</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- ===================== SERVICES ===================== -->
+<div class="panel" id="panel-automation">
+  <div class="breadcrumb">Home <span>›</span> Services <span>›</span> Library Automation</div>
+  <div class="section">
+    <h2 class="section-title">Library Automation</h2>
+    <div class="card">
+      <div class="service-icon">💻</div>
+      <p class="about-text">The housekeeping operations of the library are fully automated with an in-house LIS software with Barcode applications.</p>
+      <div class="service-title" style="margin-top:16px;">Other Automated Facilities</div>
+      <ul class="service-list">
+        <li>CCTV Surveillance System &amp; Check Point</li>
+        <li>Bar-coding Technology</li>
+        <li>Smart Card System</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<div class="panel" id="panel-digital">
+  <div class="breadcrumb">Home <span>›</span> Services <span>›</span> Digital Library</div>
+  <div class="section">
+    <h2 class="section-title">Digital Library</h2>
+    <div class="card" style="text-align:center;">
+      <div class="service-icon">🌐</div>
+      <div style="font-family:'Times New Roman',serif;font-size:44px;color:#b8954b;font-weight:700;">21</div>
+      <div style="font-size:13px;letter-spacing:1px;text-transform:uppercase;color:#4a4a4a;margin-top:4px;">Systems Available</div>
+      <p class="about-text" style="margin-top:14px;">Free browsing facility for all library users.</p>
+    </div>
+  </div>
+</div>
+
+<div class="panel" id="panel-av">
+  <div class="breadcrumb">Home <span>›</span> Services <span>›</span> Audio Visual Section</div>
+  <div class="section">
+    <h2 class="section-title">Audio Visual Section</h2>
+    <div class="card">
+      <div class="service-icon">🎬</div>
+      <p class="about-text"><strong>SWAYAM PRABHA</strong> is a group of <strong>34 DTH channels</strong> devoted to telecasting high-quality educational programmes on a 24×7 basis using the GSAT-15 satellite.</p>
+    </div>
+  </div>
+</div>
+
+<div class="panel" id="panel-wifi">
+  <div class="breadcrumb">Home <span>›</span> Services <span>›</span> Wi-Fi Facility</div>
+  <div class="section">
+    <h2 class="section-title">Wi-Fi Facility</h2>
+    <div class="card">
+      <div class="service-icon">📶</div>
+      <p class="about-text">Staff &amp; students can access the internet through Wi-Fi connectivity within the library premises.</p>
+    </div>
+  </div>
+</div>
+
+<div class="panel" id="panel-related">
+  <div class="breadcrumb">Home <span>›</span> Services <span>›</span> Library Related Links</div>
+  <div class="section">
+    <h2 class="section-title">Library Related Links</h2>
+    <div style="display:flex;flex-direction:column;gap:12px;" id="relatedLinks"></div>
+  </div>
+  <div class="section">
+    <h2 class="section-title">Newspapers &amp; E-Papers</h2>
+    <div class="flex-wrap" id="newspaperFull"></div>
+  </div>
+</div>
+
+<!-- ===================== NDLI CLUB ===================== -->
+<div class="panel" id="panel-ndli">
+  <div class="breadcrumb">Home <span>›</span> NDLI Club</div>
+  <div class="section">
+    <h2 class="section-title">About NDLI Club</h2>
+    <div class="card">
+      <p class="about-text">National Digital Library of India Club (<strong>NDLI Club</strong>) is an enabler of career progression for students, job seekers, researchers and learners. NDLI Clubs are set up in institutes and nodal bodies, and these Clubs conduct events to help students develop knowledge, skill and traits beyond the regular curriculum — essential for progression in their respective professional domain. Events may be physical or virtual; virtual events are web-based and conducted through the NDLI Club portal, organized at institute, city/district/state/regional or all-India level.</p>
+      <p class="about-text">Development of knowledge, skill and traits needs access to varieties of learning resources. NDLI Club members can access a huge repository of free and open-access learning resources, from anywhere and at any time — via desktop, laptop, tablet or mobile — through the <strong>National Digital Library of India (NDLI)</strong> (<a href="https://ndl.iitkgp.ac.in" target="_blank" style="color:#b8954b;">ndl.iitkgp.ac.in</a>). NDLI and NDLI Club are initiatives of the Ministry of Education (MoE), Government of India, through NMEICT — a National Mission project and part of the Digital India Mission.</p>
+      <p class="about-text">NDLI provides content for all academic levels, all disciplines, and in most widely used Indian languages — a service for all of India to learn, share, grow and democratize education.</p>
+    </div>
+  </div>
+
+  <div class="section">
+    <h2 class="section-title">PSG Polytechnic College — NDLI Club Authority Details</h2>
+    <table class="lib-table">
+      <thead><tr><th>Name &amp; Designation</th><th>Club Authority</th></tr></thead>
+      <tbody>
+        <tr><td>Dr. B. Giriraj, Principal</td><td>Patron</td></tr>
+        <tr><td>Dr. B. Sathish Babu, Faculty Coordinator, Library</td><td>President</td></tr>
+        <tr><td>Mr. R. Vijesh, Librarian</td><td>Secretary</td></tr>
+        <tr><td>Mr. A. N. Saikrishnan, Lecturer, Dept of Apparel Technology</td><td>Executive Member</td></tr>
+        <tr><td>Mr. Kathiresan, Head In-Charge, Dept of Information Technology</td><td>Executive Member</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="section">
+    <h2 class="section-title">Certificate</h2>
+    <a class="link-row" href="https://www.psgpolytech.ac.in/library/assets/img/NDLI/Club-Reg-Certificaate%202022%20-%2023.pdf" target="_blank">
+      <div><div class="link-row-name">📜 NDLI Club Registration Certificate 2022–23</div><div style="font-size:12px;color:#8a8a8a;margin-top:4px;">Click to open PDF</div></div>
+      <div class="link-row-arrow">→</div>
+    </a>
+  </div>
+</div>
+
+<!-- ===================== PHOTOS ===================== -->
+<div class="panel" id="panel-photos">
+  <div class="breadcrumb">Home <span>›</span> NDLI <span>›</span> Photos &amp; Certificate</div>
+  <div class="section">
+    <h2 class="section-title">Photos &amp; Certificate</h2>
+    <div class="grid-auto-3" id="photoGrid"></div>
+  </div>
+</div>
+
+<!-- LIGHTBOX -->
+<div class="lightbox" id="photoLightbox" onclick="closePhotoLightboxOnBg(event)">
+  <div class="lightbox-inner">
+    <span class="lightbox-close" onclick="closePhotoLightbox()">×</span>
+    <img id="photoLbImg" src="" alt="">
+    <div class="lightbox-nav">
+      <button class="lb-btn" onclick="photoLbNavigate(-1)">← Prev</button>
+      <button class="lb-btn" onclick="photoLbNavigate(1)">Next →</button>
+    </div>
+  </div>
+</div>
+
+
+<div class="panel" id="panel-contact">
+  <div class="breadcrumb">Home <span>›</span> Contact Us</div>
+  <div class="section">
+    <h2 class="section-title">Contact the Librarian</h2>
+    <div class="grid-2">
+      <div class="card">
+        <div class="contact-row"><div class="c-icon">🏛️</div><div><div class="c-label">Address</div><div class="c-value">PSG Polytechnic College, Peelamedu,<br>Coimbatore – 641 004, Tamil Nadu, India</div></div></div>
+        <div class="contact-row"><div class="c-icon">📞</div><div><div class="c-label">Phone</div><div class="c-value">0422 – 4344313, 2572177</div></div></div>
+        <div class="contact-row"><div class="c-icon">📠</div><div><div class="c-label">Fax</div><div class="c-value">0422 – 2573833</div></div></div>
+        <div class="contact-row"><div class="c-icon">✉️</div><div><div class="c-label">Email</div><div class="c-value"><a href="mailto:library@psgpolytech.ac.in">library@psgpolytech.ac.in</a></div></div></div>
+        <div class="contact-row"><div class="c-icon">🌐</div><div><div class="c-label">Website</div><div class="c-value"><a href="https://www.psgpolytech.ac.in" target="_blank">www.psgpolytech.ac.in</a></div></div></div>
+        <iframe class="map-frame" loading="lazy" src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3916.178480339475!2d76.9998592750749!3d11.025232054555065!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3ba8582ffd313e63%3A0x3db9df61d246656e!2sPSG%20Polytechnic%20College!5e0!3m2!1sen!2sin!4v1682071898074!5m2!1sen!2sin"></iframe>
+      </div>
+      <div class="card">
+        <div class="vm-title" style="margin-top:0;">🔗 Useful Links</div>
+        <div style="display:flex;flex-direction:column;gap:10px;margin-top:12px;" id="usefulLinks"></div>
+        <div class="vm-title">⬇️ Downloads</div>
+        <div style="display:flex;flex-direction:column;gap:10px;margin-top:12px;">
+          <a class="link-row" href="https://www.psgpolytech.ac.in/library/assets/files/BOOK%20RECOMM%20FORM.pdf" target="_blank"><div class="link-row-name" style="font-size:13px;">📗 Book Recommendation Form</div><div class="link-row-arrow">→</div></a>
+          <a class="link-row" href="https://www.psgpolytech.ac.in/library/assets/files/JRL%20RECOMM%20FORM.pdf" target="_blank"><div class="link-row-name" style="font-size:13px;">📘 Journal Recommendation Form</div><div class="link-row-arrow">→</div></a>
+          <a class="link-row" href="#"><div class="link-row-name" style="font-size:13px;">📙 Library Brochure</div><div class="link-row-arrow">→</div></a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+</div>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <div class="container">
+    <p>© 2026 PSG Polytechnic College Library. All Rights Reserved.</p>
+    <div class="quote">"Let there be charity so that others can share my family's prosperity" — Shri P S Govindaswamy Naidu</div>
+  </div>
+</footer>
+
+<script>
+  /* ---------- DATA ---------- */
+  const team = [
+    { name:"Dr. B. Sathish Babu", role:"Faculty Coordinator", qual:"M.Tech, Ph.D", img:"https://www.psgpolytech.ac.in/library/assets/img/team/Sathishbabu.png" },
+    { name:"Mr. R. Vijesh", role:"Librarian", qual:"MA, MLIS, M.Phil, DNCC, UGC-NET", img:"https://www.psgpolytech.ac.in/library/assets/img/team/Vijesh.png" },
+    { name:"Mr. K. Sathish Kumar", role:"Assistant Librarian", qual:"B.Com, BLIS", img:"https://www.psgpolytech.ac.in/library/assets/img/team/Sathishkumar.png" },
+    { name:"Mr. S. Somasundaram", role:"Junior Assistant", qual:"B.Com, MLIS", img:"https://www.psgpolytech.ac.in/library/assets/img/team/Somasundaram.png" },
+    { name:"Mr. S. Murugesan", role:"Library Assistant", qual:"B.Com, BLIS", img:"https://www.psgpolytech.ac.in/library/assets/img/team/Murugesan.png" },
+    { name:"Mrs. V. Kowsalya Devi", role:"Library Assistant", qual:"CLIS", img:"https://www.psgpolytech.ac.in/library/assets/img/team/Kowsalyadevi.png" },
+    { name:"Mrs. S. Nagamani", role:"Library Assistant", qual:"HSC", img:"https://www.psgpolytech.ac.in/library/assets/img/team/Nagamani.png" }
+  ];
+
+  const newspapers = [
+    ["Employment News","https://employmentnews.gov.in/"],["Times of India","https://timesofindia.indiatimes.com/"],
+    ["Indian Express","https://indianexpress.com/"],["Lokmat Times","https://epaper.lokmat.com/lokmattimes/index.php"],
+    ["Mumbai Mirror","https://mumbaimirror.indiatimes.com/"],["Pune Mirror","https://punemirror.indiatimes.com/"],
+    ["Economic Times","https://economictimes.indiatimes.com/defaultinterstitial.cms"],["Business Standard","http://www.business-standard.com/"],
+    ["Financial Express","https://www.financialexpress.com/"],["Business Line","https://www.thehindubusinessline.com/"],
+    ["The Hindu","https://www.thehindu.com/"],["Hindustan Times","https://www.hindustantimes.com/"],
+    ["Deccan Herald","https://www.deccanherald.com/"],["Asian Age","https://www.asianage.com/"],
+    ["Pioneer","https://www.dailypioneer.com/"],["Daily News & Analysis (DNA)","https://www.dnaindia.com/"],
+    ["Mid-Day","http://www.mid-day.com/"],["Deccan Chronicle","https://www.deccanchronicle.com/"],
+    ["Telegraph","https://www.telegraphindia.com/"],["Bangalore Mirror","https://bangaloremirror.indiatimes.com/"],
+    ["Statesman","https://www.asianage.com/"],["Kashmir Times","http://www.kashmirtimes.com/"]
+  ];
+
+  const arrivals = [
+    { title:"Interchange: Students Book – 2", acc:"213730", author:"Jack C Richards", call:"415 R2 RIC" },
+    { title:"Design for Manufacturability", acc:"213763", author:"Artur Balasinski", call:"670 R0 BAL" },
+    { title:"Big Data and Analytics", acc:"213698", author:"Seema Acharya, Subhashini Chellappan", call:"005.8 R3 ACH" },
+    { title:"Alternative Fuels: Concepts, Technologies and Developments", acc:"213689", author:"Thipse S S", call:"621.182 Q5 THI" },
+    { title:"Arduino Projects for Engineers", acc:"213681", author:"Neerparaj Rai", call:"005.133 Q6 RAI" },
+    { title:"IT Skills", acc:"213679", author:"Sunanda", call:"005.8 R3 SUN" },
+    { title:"Cloud Computing", acc:"213661", author:"Kashinath Bedare", call:"004.36 Q9 BED" },
+    { title:"Traditional Indian Handcrafted Textiles — Woven Textiles Vol.2", acc:"213637", author:"Anjali Karolia", call:"677 Q9 KAR" },
+    { title:"Fashionpedia: The Visual Dictionary of Fashion Design", acc:"213635", author:"Fashionary", call:"746.92 R1 FAS" },
+    { title:"Rapid Prototyping: 3D Printing and Additive Manufacturing", acc:"213515", author:"Chee Kai Chua, Kah Fai Leong", call:"686 R2 CHU" },
+    { title:"Additive Manufacturing: Principles, Technologies and Applications", acc:"213514", author:"Paul C P, Jinoop A N", call:"670 R1 PA" },
+    { title:"Lean Production Simplified", acc:"213510", author:"Pascal Dennis", call:"658.5 R0 DEN" },
+    { title:"Fuzzy Mathematics", acc:"213510", author:"Ponraj R, Muthulakshmi C", call:"510 R3 PON" },
+    { title:"Digital Fashion Innovations", acc:"213236", author:"Abu Sadat Muhammad Sayem", call:"746.92 R3 SAY" },
+    { title:"Flexible Wearable and Stretchable Electronics", acc:"213234", author:"Katsuyuki Sakuma", call:"621.381 R1 SAK" },
+    { title:"Medical Applications of Artificial Intelligence", acc:"213227", author:"Arvin Agah", call:"006.3 R4 AGA" }
+  ];
+
+  const relatedLinks = [
+    ["PSG Polytechnic College","https://www.psgpolytech.ac.in/","🏛️"],
+    ["OPAC","http://ecampus.psgpolytech.ac.in/opac","🔍"],
+    ["PSG Polytechnic Academic","http://ecampus.psgpolytech.ac.in/academic","🎓"],
+    ["E-Campus Students Zone","http://ecampus.psgpolytech.ac.in/studzone","🧑‍🎓"],
+    ["Question Bank","http://questionpaper.psgpolytech/","📝"],
+    ["PSG Polytechnic Intranet","http://intranet.psgpolytech/","🌐"],
+    ["PSG College of Technology OPAC","http://opac.psgtech/","📚"]
+  ];
+
+  const usefulLinks = [
+    ["PSG Polytechnic College","https://www.psgpolytech.ac.in/"],
+    ["OPAC — Library Catalogue","http://ecampus.psgpolytech.ac.in/opac"],
+    ["PSG Polytechnic Academic","http://ecampus.psgpolytech.ac.in/academic"],
+    ["E-Campus Students Zone","http://ecampus.psgpolytech.ac.in/studzone"],
+    ["Question Bank","http://questionpaper.psgpolytech/"],
+    ["PSG Polytechnic Intranet","http://intranet.psgpolytech/"],
+    ["PSG College of Technology OPAC","http://opac.psgtech/"]
+  ];
+
+  /* ---------- RENDER ---------- */
+  function renderTeam(){
+    const grid = document.getElementById('teamGrid');
+    team.forEach(m=>{
+      const c = document.createElement('div');
+      c.className = 'card team-card';
+      c.innerHTML = `<div class="team-photo"><img src="${m.img}" alt="${m.name}" loading="lazy" onerror="this.parentElement.style.background='#eae4dc'; this.remove();"></div>
+        <div class="team-name">${m.name}</div><div class="team-role">${m.role}</div><div class="team-qual">${m.qual}</div>`;
+      grid.appendChild(c);
+    });
+  }
+
+  function renderNewspapers(targetId, limit){
+    const wrap = document.getElementById(targetId);
+    if(!wrap) return;
+    const list = limit ? newspapers.slice(0, limit) : newspapers;
+    list.forEach(([name,url])=>{
+      const a = document.createElement('a');
+      a.href = url; a.target = '_blank';
+      a.className = 'tag';
+      a.style.textDecoration = 'none';
+      a.textContent = name;
+      wrap.appendChild(a);
+    });
+    if(limit && newspapers.length > limit){
+      const more = document.createElement('span');
+      more.className = 'tag tag-gold';
+      more.textContent = `+${newspapers.length - limit} more`;
+      wrap.appendChild(more);
+    }
+  }
+
+  function renderArrivals(targetId, limit){
+    const grid = document.getElementById(targetId);
+    if(!grid) return;
+    const list = limit ? arrivals.slice(0, limit) : arrivals;
+    list.forEach(b=>{
+      const c = document.createElement('div');
+      c.className = 'card book-card';
+      c.innerHTML = `<div class="book-acc">Acc. No ${b.acc}</div><div class="book-title">${b.title}</div>
+        <div class="book-meta"><strong>Author:</strong> ${b.author}<br><strong>Call No:</strong> ${b.call}</div>`;
+      grid.appendChild(c);
+    });
+  }
+
+  function renderRelated(){
+    const wrap = document.getElementById('relatedLinks');
+    if(!wrap) return;
+    relatedLinks.forEach(([name,url,icon])=>{
+      const a = document.createElement('a');
+      a.className = 'link-row';
+      a.href = url;
+      a.target = '_blank';
+      a.rel = 'noopener noreferrer';
+      a.innerHTML = `<div class="link-row-name">${icon} ${name}</div><div class="link-row-arrow">→</div>`;
+      wrap.appendChild(a);
+    });
+  }
+
+  function renderUsefulLinks(){
+    const wrap = document.getElementById('usefulLinks');
+    if(!wrap) return;
+    usefulLinks.forEach(([name,url])=>{
+      const a = document.createElement('a');
+      a.className = 'link-row';
+      a.href = url; a.target = '_blank';
+      a.innerHTML = `<div class="link-row-name" style="font-size:13px;">${name}</div><div class="link-row-arrow">→</div>`;
+      wrap.appendChild(a);
+    });
+  }
+
+  renderTeam();
+  renderNewspapers('newspaperPreview', 8);
+  renderNewspapers('newspaperFull', null);
+  renderArrivals('arrivalsPreview', 3);
+  renderRelated();
+  renderUsefulLinks();
+
+  const photos = [
+    "https://www.psgpolytech.ac.in/library/assets/img/portfolio/6.jpg",
+    "https://www.psgpolytech.ac.in/library/assets/img/portfolio/1-New.jpg",
+    "https://www.psgpolytech.ac.in/library/assets/img/portfolio/2-New.jpeg",
+    "https://www.psgpolytech.ac.in/library/assets/img/portfolio/4.jpg",
+    "https://www.psgpolytech.ac.in/library/assets/img/portfolio/5.jpg",
+    "https://www.psgpolytech.ac.in/library/assets/img/portfolio/7.jpg",
+    "https://www.psgpolytech.ac.in/library/assets/img/portfolio/8.jpeg",
+    "https://www.psgpolytech.ac.in/library/assets/img/portfolio/9.jpg",
+    "https://www.psgpolytech.ac.in/library/assets/img/portfolio/11.jpg",
+    "https://www.psgpolytech.ac.in/library/assets/img/portfolio/12.jpg",
+    "https://www.psgpolytech.ac.in/library/assets/img/portfolio/13.jpg",
+    "https://www.psgpolytech.ac.in/library/assets/img/portfolio/14.jpg",
+    "https://www.psgpolytech.ac.in/library/assets/img/portfolio/15.jpg",
+    "https://www.psgpolytech.ac.in/library/assets/img/portfolio/16.jpg",
+    "https://www.psgpolytech.ac.in/library/assets/img/portfolio/17.jpg",
+    "https://www.psgpolytech.ac.in/library/assets/img/portfolio/18.jpeg",
+    "https://www.psgpolytech.ac.in/library/assets/img/portfolio/19.jpg",
+    "https://www.psgpolytech.ac.in/library/assets/img/portfolio/20.jpg",
+    "https://www.psgpolytech.ac.in/library/assets/img/portfolio/21.jpg",
+    "https://www.psgpolytech.ac.in/library/assets/img/portfolio/22.jpeg",
+    "https://www.psgpolytech.ac.in/library/assets/img/portfolio/23.jpg",
+    "https://www.psgpolytech.ac.in/library/assets/img/portfolio/24.jpeg",
+    "https://www.psgpolytech.ac.in/library/assets/img/portfolio/25.jpeg",
+    "https://www.psgpolytech.ac.in/library/assets/img/portfolio/26.jpeg",
+    "https://www.psgpolytech.ac.in/library/assets/img/portfolio/27.jpeg",
+    "https://www.psgpolytech.ac.in/library/assets/img/portfolio/28.jpeg",
+    "https://www.psgpolytech.ac.in/library/assets/img/portfolio/29.jpeg",
+    "https://www.psgpolytech.ac.in/library/assets/img/portfolio/30.jpeg",
+    "https://www.psgpolytech.ac.in/library/assets/img/portfolio/31.jpeg"
+  ];
+  let photoIndex = 0;
+
+  function renderPhotos(){
+    const grid = document.getElementById('photoGrid');
+    if(!grid) return;
+    photos.forEach((src, i)=>{
+      const c = document.createElement('div');
+      c.className = 'card photo-card';
+      c.onclick = ()=> openPhotoLightbox(i);
+      c.innerHTML = `<div class="photo-thumb"><img src="${src}" alt="NDLI photo ${i+1}" loading="lazy" onerror="this.parentElement.style.background='#1a1a1a'"></div>`;
+      grid.appendChild(c);
+    });
+  }
+  function openPhotoLightbox(i){
+    photoIndex = i;
+    document.getElementById('photoLbImg').src = photos[i];
+    document.getElementById('photoLightbox').classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+  function closePhotoLightbox(){
+    document.getElementById('photoLightbox').classList.remove('open');
+    document.body.style.overflow = 'auto';
+  }
+  function closePhotoLightboxOnBg(e){
+    if(e.target === document.getElementById('photoLightbox')) closePhotoLightbox();
+  }
+  function photoLbNavigate(dir){
+    photoIndex = (photoIndex + dir + photos.length) % photos.length;
+    openPhotoLightbox(photoIndex);
+  }
+  document.addEventListener('keydown', e=>{
+    const lb = document.getElementById('photoLightbox');
+    if(!lb || !lb.classList.contains('open')) return;
+    if(e.key === 'Escape') closePhotoLightbox();
+    if(e.key === 'ArrowRight') photoLbNavigate(1);
+    if(e.key === 'ArrowLeft') photoLbNavigate(-1);
+  });
+  renderPhotos();
+
+  /* ---------- NAV LOGIC ---------- */
+  function toggleDropdown(e, id){
+    e.preventDefault(); e.stopPropagation();
+    const dd = document.getElementById(id);
+    const isActive = dd.classList.contains('active');
+    closeAllDropdowns();
+    if(!isActive){ dd.classList.add('active'); dd.querySelector('.dropdown-menu').classList.add('open'); }
+  }
+  function closeAllDropdowns(){
+    document.querySelectorAll('.nav-dropdown').forEach(d=>{ d.classList.remove('active'); d.querySelector('.dropdown-menu').classList.remove('open'); });
+  }
+  document.addEventListener('click', closeAllDropdowns);
+
+  function showPanel(panelId, clickedLink){
+    document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));
+    const panel = document.getElementById('panel-' + panelId);
+    if(panel) panel.classList.add('active');
+
+    document.getElementById('hero-block').style.display = (panelId === 'home') ? '' : 'none';
+
+    document.querySelectorAll('.dropdown-menu a').forEach(a=>a.classList.remove('active-sub'));
+    document.querySelectorAll('.nav-links > a').forEach(a=>a.classList.remove('active-nav'));
+    if(clickedLink) clickedLink.classList.add('active-sub');
+    if(panelId === 'home') document.getElementById('nav-home').classList.add('active-nav');
+
+    closeAllDropdowns();
+    window.scrollTo({top:0, behavior:'smooth'});
+  }
+</script>
+<!-- CHATBOT WIDGET -->
+<button class="chatbot-toggle" onclick="toggleChatbot()">💬</button>
+<div class="chatbot-panel" id="chatbotPanel">
+  <div class="chatbot-header">
+    <div class="chatbot-avatar">📚</div>
+    <div>
+      <div class="chatbot-title">May I Help You</div>
+      <div class="chatbot-sub">● online</div>
+    </div>
+  </div>
+  <div class="chatbot-body" id="chatbotBody">
+    <div class="chatbot-msg">Hi 👋</div>
+    <div class="chatbot-msg">
+      Welcome 👋 to the PSG Polytechnic Library. How may we help you?
+      <div class="chatbot-options">
+        <span class="chatbot-opt" onclick="chatbotReply('Book issue','Books are issued on production of your bar-coded ID card. Students can hold up to 6 books for 15 days.')">Book issue</span>
+        <span class="chatbot-opt" onclick="chatbotReply('Overdue & Fines','Overdue fine is ₹0.50/day/book up to 20 days, and ₹5/day/book from the 21st day onwards.')">Overdue &amp; Fines</span>
+        <span class="chatbot-opt" onclick="chatbotReply('Opening Hours','Mon–Fri: 8:30 AM–5:30 PM · Saturdays: 8:30 AM–4:30 PM · 1st &amp; 3rd Saturdays/Holidays: 8:30 AM–1:00 PM')">Opening Hours</span>
+        <span class="chatbot-opt" onclick="chatbotReply('Location','PSG Polytechnic College, Peelamedu, Coimbatore – 641 004, Tamil Nadu, India')">Location</span>
+        <span class="chatbot-opt" onclick="chatbotReply('Facilities','Digital Library (21 systems), Wi-Fi, Audio-Visual Section, OPAC, NDLI Club, and more.')">Facilities</span>
+        <span class="chatbot-opt" onclick="chatbotReply('Services offered','Library Automation, Digital Library, Audio Visual Section, Wi-Fi Facility, and Library Related Links.')">Services offered</span>
+        <span class="chatbot-opt" onclick="chatbotReply('More about the library','Our library holds 43,128+ books, 69 journals and 7 newspapers — check the About Us section for full details.')">More about the library</span>
+        <span class="chatbot-opt" onclick="chatbotReply('Contact us','📞 0422 – 4344313, 2572177 · ✉️ library@psgpolytech.ac.in')">Contact us</span>
+      </div>
+    </div>
+  </div>
+  <div style="padding:10px 16px 16px;background:#fff;">
+    <button class="chatbot-close-btn" onclick="toggleChatbot()">CLOSE CHAT</button>
+  </div>
+</div>
+
+<script>
+  function toggleChatbot(){
+    document.getElementById('chatbotPanel').classList.toggle('open');
+  }
+  function chatbotReply(question, answer){
+    const body = document.getElementById('chatbotBody');
+    const q = document.createElement('div');
+    q.className = 'chatbot-msg';
+    q.style.background = '#b8954b';
+    q.style.color = '#fff';
+    q.style.marginLeft = '30%';
+    q.textContent = question;
+    const a = document.createElement('div');
+    a.className = 'chatbot-msg';
+    a.textContent = answer;
+    body.appendChild(q);
+    body.appendChild(a);
+    body.scrollTop = body.scrollHeight;
+  }
+</script>
+
+</body>
+</html>

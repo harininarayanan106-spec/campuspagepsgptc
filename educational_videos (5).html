@@ -1,0 +1,545 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Educational Videos | PSG Polytechnic College</title>
+  <style>
+    /* ---------- reset & base ---------- */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+      background: #f8f6f2;
+      color: #1e1e1e;
+      line-height: 1.7;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 32px;
+    }
+
+    /* ---------- navigation ---------- */
+    .navbar {
+      background: #ffffff;
+      padding: 16px 0;
+      border-bottom: 1px solid #e8e2da;
+      position: sticky;
+      top: 0;
+      z-index: 200;
+      backdrop-filter: blur(8px);
+      background: rgba(255, 255, 255, 0.94);
+    }
+
+    .nav-container {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .logo {
+      font-size: 20px;
+      font-weight: 500;
+      letter-spacing: 0.5px;
+      color: #1a1a1a;
+      text-decoration: none;
+    }
+    .logo span {
+      color: #1a1a1a;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 36px;
+      align-items: center;
+    }
+    .nav-links a {
+      color: #4a4a4a;
+      text-decoration: none;
+      font-size: 13px;
+      font-weight: 450;
+      letter-spacing: 0.3px;
+      transition: color 0.2s;
+    }
+    .nav-links a:hover {
+      color: #b8954b;
+    }
+
+    /* ---------- campus dropdown ---------- */
+    .nav-dropdown { position: relative; }
+    .nav-dropdown > a {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      cursor: pointer;
+    }
+    .nav-dropdown > a::after {
+      content: "▾";
+      font-size: 11px;
+      transition: transform 0.2s;
+    }
+    .nav-dropdown.active > a::after { transform: rotate(180deg); }
+    .dropdown-menu {
+      display: none;
+      position: absolute;
+      top: calc(100% + 14px);
+      left: 50%;
+      transform: translateX(-50%);
+      background: #ffffff;
+      border: 1px solid #eae4dc;
+      border-top: 3px solid #b8954b;
+      border-radius: 10px;
+      min-width: 210px;
+      z-index: 100;
+      box-shadow: 0 12px 30px rgba(0,0,0,0.08);
+      overflow: hidden;
+    }
+    .dropdown-menu.open { display: block; }
+    .dropdown-menu a {
+      display: block;
+      padding: 12px 20px;
+      color: #4a4a4a !important;
+      font-size: 13px !important;
+      letter-spacing: 0.3px;
+      border-bottom: 1px solid #f0ebe3;
+      transition: background 0.2s, color 0.2s, padding-left 0.2s;
+    }
+    .dropdown-menu a:last-child { border-bottom: none; }
+    .dropdown-menu a:hover {
+      background: #f8f6f2;
+      color: #b8954b !important;
+      padding-left: 26px;
+    }
+
+    /* ---------- hero ---------- */
+    .hero {
+      background: linear-gradient(150deg, #ede8df 0%, #f8f5f0 100%);
+      padding: 72px 0 60px;
+      text-align: center;
+      border-bottom: 1px solid #e0dad2;
+    }
+    .hero .badge {
+      display: inline-block;
+      background: #b8954b;
+      color: #fff;
+      font-size: 11px;
+      letter-spacing: 3px;
+      padding: 4px 22px;
+      border-radius: 40px;
+      text-transform: uppercase;
+      margin-bottom: 16px;
+    }
+    .hero h1 {
+      font-size: 56px;
+      font-weight: 350;
+      font-family: 'Times New Roman', Georgia, serif;
+      color: #1a1a1a;
+      letter-spacing: -0.5px;
+    }
+    .hero .gold-line {
+      width: 80px;
+      height: 3px;
+      background: #b8954b;
+      margin: 18px auto 20px;
+      border-radius: 4px;
+    }
+    .hero p {
+      font-size: 19px;
+      color: #3d3d3d;
+      max-width: 720px;
+      margin: 0 auto;
+    }
+
+    /* ---------- quick stats ---------- */
+    .stats-row {
+      display: flex;
+      justify-content: center;
+      gap: 12px 16px;
+      flex-wrap: wrap;
+      margin-top: 24px;
+    }
+    .tag {
+      background: #f0ebe3;
+      padding: 6px 18px;
+      border-radius: 40px;
+      font-size: 14px;
+      color: #1e1e1e;
+      display: inline-block;
+      border: 1px solid #e0dad2;
+      text-align: center;
+    }
+    .tag-gold {
+      background: #b8954b;
+      color: #fff;
+      border-color: #b8954b;
+    }
+
+    /* ---------- sections ---------- */
+    .section {
+      padding: 48px 0 40px;
+      border-bottom: 1px solid #e8e2da;
+    }
+    .section:last-of-type {
+      border-bottom: none;
+    }
+    .section-title {
+      font-size: 34px;
+      font-weight: 350;
+      font-family: 'Times New Roman', Georgia, serif;
+      margin-bottom: 28px;
+      color: #1a1a1a;
+      border-left: 6px solid #b8954b;
+      padding-left: 20px;
+    }
+
+    /* ---------- filter bar ---------- */
+    .filter-bar {
+      padding: 24px 0;
+      position: sticky;
+      top: 65px;
+      z-index: 100;
+      background: rgba(248, 246, 242, 0.95);
+      backdrop-filter: blur(6px);
+      border-bottom: 1px solid #e8e2da;
+    }
+    .filter-tabs {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+    .filter-tab {
+      background: #f0ebe3;
+      padding: 7px 20px;
+      border-radius: 40px;
+      font-size: 13px;
+      font-weight: 500;
+      color: #1e1e1e;
+      border: 1px solid #e0dad2;
+      cursor: pointer;
+      letter-spacing: 0.3px;
+      transition: 0.2s;
+      text-transform: uppercase;
+    }
+    .filter-tab:hover {
+      border-color: #b8954b;
+      color: #b8954b;
+    }
+    .filter-tab.active {
+      background: #b8954b;
+      color: #fff;
+      border-color: #b8954b;
+    }
+
+    /* ---------- subject block ---------- */
+    .subject-section { margin-bottom: 20px; }
+    .subject-header {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      margin: 30px 0 20px;
+    }
+    .subject-icon {
+      width: 46px;
+      height: 46px;
+      background: #f0ebe3;
+      border: 2px solid #b8954b;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 20px;
+      flex-shrink: 0;
+    }
+    .subject-title {
+      font-size: 24px;
+      font-weight: 400;
+      font-family: 'Times New Roman', Georgia, serif;
+      color: #1e1e1e;
+    }
+    .subject-count {
+      margin-left: auto;
+    }
+
+    /* ---------- grid ---------- */
+    .grid-auto-3 {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 30px;
+    }
+
+    /* ---------- video card ---------- */
+    .card {
+      background: #ffffff;
+      border-radius: 18px;
+      padding: 20px;
+      box-shadow: 0 2px 16px rgba(0, 0, 0, 0.03);
+      border: 1px solid #eae4dc;
+      transition: 0.2s;
+    }
+    .video-card {
+      display: block;
+      text-decoration: none;
+      color: inherit;
+      cursor: pointer;
+    }
+    .video-card:hover {
+      border-color: #b8954b;
+      box-shadow: 0 10px 28px rgba(0,0,0,0.08);
+      transform: translateY(-4px);
+    }
+
+    .img-ph {
+      background: #eae4dc;
+      border: 3px solid #d6cdbc;
+      border-radius: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      padding: 6px;
+      position: relative;
+      aspect-ratio: 16/9;
+    }
+    .video-card:hover .img-ph { border-color: #b8954b; }
+    .img-ph img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      border-radius: 12px;
+      display: block;
+      transition: transform 0.4s;
+    }
+    .video-card:hover .img-ph img { transform: scale(1.05); }
+
+    .play-overlay {
+      position: absolute;
+      inset: 6px;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba(26,26,26,0);
+      transition: background 0.3s;
+    }
+    .video-card:hover .play-overlay { background: rgba(26,26,26,0.3); }
+    .play-btn {
+      width: 44px; height: 44px;
+      background: #ffffff;
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      opacity: 0; transform: scale(0.7);
+      transition: all 0.3s;
+    }
+    .video-card:hover .play-btn { opacity: 1; transform: scale(1); background: #b8954b; }
+    .play-btn svg { width: 16px; height: 16px; fill: #1a1a1a; margin-left: 3px; transition: fill 0.3s; }
+    .video-card:hover .play-btn svg { fill: #ffffff; }
+
+    .video-info { padding: 16px 4px 4px; }
+    .video-number {
+      font-size: 11px;
+      letter-spacing: 1.5px;
+      color: #b8954b;
+      font-weight: 600;
+      text-transform: uppercase;
+      margin-bottom: 6px;
+    }
+    .video-label {
+      font-size: 16px;
+      font-weight: 600;
+      color: #1a1a1a;
+    }
+    .video-tag { margin-top: 10px; }
+
+    /* ---------- footer ---------- */
+    .footer {
+      background: #ece8e1;
+      padding: 44px 0;
+      margin-top: 20px;
+      border-top: 1px solid #d6cdbc;
+      text-align: center;
+      color: #4a4a4a;
+    }
+    .footer .quote {
+      font-style: italic;
+      color: #b8954b;
+      margin-top: 10px;
+      font-size: 14px;
+    }
+
+    /* ---------- responsive ---------- */
+    @media (max-width: 768px) {
+      .container { padding: 0 20px; }
+      .nav-links a:not(.nav-dropdown a) { display: none; }
+      .nav-links { gap: 0; }
+      .hero h1 { font-size: 38px; }
+      .section-title { font-size: 28px; }
+      .grid-auto-3 { grid-template-columns: 1fr 1fr; }
+      .filter-bar { top: 60px; }
+    }
+    @media (max-width: 480px) {
+      .hero h1 { font-size: 30px; }
+      .grid-auto-3 { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav class="navbar">
+  <div class="container nav-container">
+    <a href="students_union.html" class="logo">PSG <span>POLYTECHNIC COLLEGE</span></a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="container">
+    <div class="badge">Campus</div>
+    <h1>Educational Videos</h1>
+    <div class="gold-line"></div>
+    <p>Subject-wise curated video lectures to support student learning beyond the classroom.</p>
+    <div class="stats-row">
+      <span class="tag tag-gold" id="statTotal">0 Total Videos</span>
+      <span class="tag">2 Subjects Covered</span>
+      <span class="tag">Free &amp; Open Access</span>
+    </div>
+  </div>
+</section>
+
+<!-- FILTER -->
+<div class="filter-bar">
+  <div class="container">
+    <div class="filter-tabs">
+      <button class="filter-tab active" onclick="filterSubject('all', this)">All</button>
+      <button class="filter-tab" onclick="filterSubject('physics', this)">Engineering Physics</button>
+      <button class="filter-tab" onclick="filterSubject('maths', this)">Engineering Mathematics</button>
+    </div>
+  </div>
+</div>
+
+<div class="container">
+
+  <!-- CONTENT -->
+  <div class="section">
+    <h2 class="section-title">Video Library</h2>
+
+    <!-- Engineering Physics -->
+    <div class="subject-section" data-subject="physics">
+      <div class="subject-header">
+        <div class="subject-icon">⚛️</div>
+        <div class="subject-title">Engineering Physics</div>
+        <span class="tag subject-count" id="physics-count">0 Videos</span>
+      </div>
+      <div class="grid-auto-3" id="physics-grid"></div>
+    </div>
+
+    <!-- Engineering Mathematics -->
+    <div class="subject-section" data-subject="maths">
+      <div class="subject-header">
+        <div class="subject-icon">📐</div>
+        <div class="subject-title">Engineering Mathematics — X21201</div>
+        <span class="tag subject-count" id="maths-count">0 Videos</span>
+      </div>
+      <div class="grid-auto-3" id="maths-grid"></div>
+    </div>
+
+  </div>
+
+</div>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <div class="container">
+    <p>© 2026 PSG Polytechnic College. All Rights Reserved.</p>
+    <div class="quote">"Let there be charity so that others can share my family's prosperity" — Shri P S Govindaswamy Naidu</div>
+  </div>
+</footer>
+
+<script>
+    // Video Data
+    const physicsVideos = [
+        { url: "https://youtu.be/NfbeUi16Cdg", id: "NfbeUi16Cdg" },
+        { url: "https://youtu.be/p9Cb32luB6Q", id: "p9Cb32luB6Q" },
+        { url: "https://youtu.be/ie9qTCxqQZw", id: "ie9qTCxqQZw" },
+        { url: "https://youtu.be/mCUJaXWX6PA", id: "mCUJaXWX6PA" }
+    ];
+
+    const mathsVideos = [
+        { url: "https://youtu.be/dqwZ8zH1EhI", id: "dqwZ8zH1EhI" },
+        { url: "https://youtu.be/SLV6Lj69FNU", id: "SLV6Lj69FNU" },
+        { url: "https://youtu.be/3BkQVmjXwgI", id: "3BkQVmjXwgI" },
+        { url: "https://youtu.be/_-ntqEfeUBA", id: "_-ntqEfeUBA" },
+        { url: "https://youtu.be/esMJrS5MLDA", id: "esMJrS5MLDA" },
+        { url: "https://youtu.be/0ddF91iJPcg", id: "0ddF91iJPcg" },
+        { url: "https://youtu.be/8qE-UWf1ekE", id: "8qE-UWf1ekE" },
+        { url: "https://youtu.be/YPu2ibosML8", id: "YPu2ibosML8" },
+        { url: "https://youtu.be/04QSoKUW7Rc", id: "04QSoKUW7Rc" },
+        { url: "https://youtu.be/_XeD2Hi4N0g", id: "_XeD2Hi4N0g" },
+        { url: "https://youtu.be/1r35ejnIbec", id: "1r35ejnIbec" },
+        { url: "https://youtu.be/9QPGDgM7kag", id: "9QPGDgM7kag" },
+        { url: "https://youtu.be/CH8D0ZQ8XvM", id: "CH8D0ZQ8XvM" },
+        { url: "https://youtu.be/ktdIxqLrnVE", id: "ktdIxqLrnVE" },
+        { url: "https://youtu.be/nu2r6VdnUQM", id: "nu2r6VdnUQM" },
+        { url: "https://youtu.be/lNyldbrVQyg", id: "lNyldbrVQyg" }
+    ];
+
+    function renderVideos(videos, gridId, label) {
+        const grid = document.getElementById(gridId);
+        videos.forEach((v, i) => {
+            const thumb = `https://img.youtube.com/vi/${v.id}/mqdefault.jpg`;
+            const card = document.createElement('a');
+            card.href = v.url;
+            card.target = "_blank";
+            card.rel = "noopener noreferrer";
+            card.className = "card video-card";
+            card.innerHTML = `
+                <div class="img-ph">
+                    <img src="${thumb}" alt="Video ${i+1}" loading="lazy" onerror="this.style.display='none'">
+                    <div class="play-overlay">
+                        <div class="play-btn">
+                            <svg viewBox="0 0 24 24"><polygon points="5,3 19,12 5,21"/></svg>
+                        </div>
+                    </div>
+                </div>
+                <div class="video-info">
+                    <div class="video-number">${label} · Video ${String(i+1).padStart(2,'0')}</div>
+                    <div class="video-label">Lecture ${i+1}</div>
+                    <div class="video-tag"><span class="tag">YouTube</span></div>
+                </div>
+            `;
+            grid.appendChild(card);
+        });
+    }
+
+    renderVideos(physicsVideos, 'physics-grid', 'PHYSICS');
+    renderVideos(mathsVideos, 'maths-grid', 'MATHS');
+
+    document.getElementById('physics-count').textContent = physicsVideos.length + ' Videos';
+    document.getElementById('maths-count').textContent = mathsVideos.length + ' Videos';
+    document.getElementById('statTotal').textContent = (physicsVideos.length + mathsVideos.length) + ' Total Videos';
+
+    // Filter function
+    function filterSubject(subject, btn) {
+        document.querySelectorAll('.filter-tab').forEach(t => t.classList.remove('active'));
+        btn.classList.add('active');
+
+        document.querySelectorAll('.subject-section').forEach(section => {
+            if (subject === 'all' || section.dataset.subject === subject) {
+                section.style.display = 'block';
+            } else {
+                section.style.display = 'none';
+            }
+        });
+    }
+
+</script>
+
+</body>
+</html>

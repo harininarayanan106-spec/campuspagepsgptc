@@ -1,0 +1,657 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>CIICP - SPCU | PSG Polytechnic College</title>
+<style>
+  *{margin:0;padding:0;box-sizing:border-box;}
+  body{font-family:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;background:#f8f6f2;color:#1e1e1e;line-height:1.7;}
+  .container{max-width:1200px;margin:0 auto;padding:0 32px;}
+
+  /* NAV */
+  .navbar{background:rgba(255,255,255,.94);padding:16px 0;border-bottom:1px solid #e8e2da;position:sticky;top:0;z-index:200;backdrop-filter:blur(8px);}
+  .nav-container{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px;}
+  .logo{font-size:20px;font-weight:500;letter-spacing:.5px;color:#1a1a1a;text-decoration:none;}
+  .nav-links{display:flex;gap:22px;align-items:center;flex-wrap:wrap;}
+  .nav-links>a{color:#4a4a4a;text-decoration:none;font-size:13px;font-weight:450;letter-spacing:.3px;transition:color .2s;cursor:pointer;white-space:nowrap;}
+  .nav-links>a:hover,.nav-links>a.active-nav{color:#b8954b;}
+
+  /* HERO */
+  .hero{background:linear-gradient(150deg,#ede8df 0%,#f8f5f0 100%);padding:72px 0 60px;text-align:center;border-bottom:1px solid #e0dad2;}
+  .hero .badge{display:inline-block;background:#b8954b;color:#fff;font-size:11px;letter-spacing:3px;padding:4px 22px;border-radius:40px;text-transform:uppercase;margin-bottom:16px;}
+  .hero h1{font-size:52px;font-weight:350;font-family:'Times New Roman',Georgia,serif;color:#1a1a1a;letter-spacing:-.5px;}
+  .hero .gold-line{width:80px;height:3px;background:#b8954b;margin:18px auto 20px;border-radius:4px;}
+  .hero p{font-size:18px;color:#3d3d3d;max-width:720px;margin:0 auto;}
+  .stats-row{display:flex;justify-content:center;gap:12px 16px;flex-wrap:wrap;margin-top:24px;}
+  .tag{background:#f0ebe3;padding:6px 18px;border-radius:40px;font-size:14px;color:#1e1e1e;display:inline-block;border:1px solid #e0dad2;}
+  .tag-gold{background:#b8954b;color:#fff;border-color:#b8954b;}
+
+  /* SECTIONS */
+  .section{padding:48px 0 40px;border-bottom:1px solid #e8e2da;}
+  .section:last-of-type{border-bottom:none;}
+  .section-title{font-size:30px;font-weight:350;font-family:'Times New Roman',Georgia,serif;margin-bottom:26px;color:#1a1a1a;border-left:6px solid #b8954b;padding-left:20px;}
+
+  /* BREADCRUMB */
+  .breadcrumb{font-size:12px;color:#8a8a8a;letter-spacing:.3px;padding:18px 0 0;}
+  .breadcrumb span{color:#b8954b;}
+
+  /* CARD BASE */
+  .card{background:#fff;border-radius:18px;padding:26px;box-shadow:0 2px 16px rgba(0,0,0,.03);border:1px solid #eae4dc;transition:.2s;}
+  .card:hover{border-color:#b8954b;}
+  .grid-auto-3{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:26px;}
+  .grid-auto-6{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:18px;}
+  .grid-2{display:grid;grid-template-columns:1fr 1fr;gap:30px;}
+
+  /* PANELS */
+  .panel{display:none;}
+  .panel.active{display:block;}
+
+  .about-text{font-size:15px;color:#3d3d3d;margin-bottom:14px;}
+  .about-text strong{color:#b8954b;}
+
+  /* CELL NAV CARDS */
+  .cell-card{text-align:center;cursor:pointer;}
+  .cell-card .cell-abbr{font-family:'Times New Roman',serif;font-size:26px;color:#b8954b;margin-bottom:8px;}
+  .cell-card .cell-name{font-size:13px;font-weight:600;color:#1a1a1a;letter-spacing:.3px;}
+
+  /* TABLE */
+  table.lib-table{width:100%;border-collapse:collapse;background:#fff;border-radius:14px;overflow:hidden;box-shadow:0 2px 16px rgba(0,0,0,.03);border:1px solid #eae4dc;}
+  table.lib-table th{background:#b8954b;color:#fff;padding:13px 18px;font-size:12px;letter-spacing:1px;text-transform:uppercase;text-align:left;}
+  table.lib-table td{padding:12px 18px;font-size:14px;color:#3d3d3d;border-bottom:1px solid #f0ebe3;}
+  table.lib-table tr:last-child td{border-bottom:none;}
+  table.lib-table tr:hover td{background:#f8f6f2;}
+
+  /* ACTIVITY CARD */
+  .book-card{border-left:4px solid #b8954b;}
+  .book-acc{font-size:11px;letter-spacing:1px;color:#b8954b;font-weight:600;text-transform:uppercase;margin-bottom:6px;}
+  .book-title{font-size:15px;font-weight:600;color:#1a1a1a;margin-bottom:8px;line-height:1.4;}
+  .book-meta{font-size:13px;color:#6a6a6a;line-height:1.8;}
+  .link-row{display:flex;align-items:center;justify-content:space-between;gap:16px;border:1px solid #eae4dc;border-radius:14px;padding:12px 18px;background:#fff;text-decoration:none;transition:.25s;color:#1a1a1a;margin-top:10px;}
+  .link-row:hover{border-color:#b8954b;transform:translateX(4px);box-shadow:0 6px 18px rgba(0,0,0,.06);}
+  .link-row-arrow{color:#b8954b;font-size:18px;}
+
+  /* TEAM */
+  .team-card{text-align:center;overflow:hidden;}
+  .team-name{font-size:15px;font-weight:600;color:#1a1a1a;}
+  .team-role{font-size:12px;letter-spacing:1px;color:#b8954b;text-transform:uppercase;margin:4px 0 4px;}
+  .team-qual{font-size:13px;color:#6a6a6a;}
+
+  /* FLEX WRAP TAGS */
+  .flex-wrap{display:flex;flex-wrap:wrap;gap:12px 14px;}
+
+  /* PHOTO GALLERY + LIGHTBOX */
+  .photo-card{cursor:pointer;overflow:hidden;padding:10px;}
+  .photo-thumb{width:100%;aspect-ratio:4/3;border-radius:12px;overflow:hidden;background:#eae4dc;border:2px solid #d6cdbc;}
+  .photo-thumb img{width:100%;height:100%;object-fit:cover;transition:transform .4s;}
+  .photo-card:hover .photo-thumb img{transform:scale(1.06);}
+  .lightbox{display:none;position:fixed;inset:0;background:rgba(20,18,15,.92);z-index:1000;justify-content:center;align-items:center;padding:20px;}
+  .lightbox.open{display:flex;}
+  .lightbox-inner{position:relative;max-width:680px;width:100%;}
+  .lightbox-inner img{width:100%;max-height:78vh;object-fit:contain;display:block;border-radius:16px;border:3px solid #b8954b;background:#fff;}
+  .lightbox-close{position:absolute;top:-44px;right:0;color:#f0ebe3;font-size:34px;cursor:pointer;line-height:1;transition:color .2s;}
+  .lightbox-close:hover{color:#b8954b;}
+  .lightbox-nav{display:flex;justify-content:space-between;margin-top:12px;}
+  .lb-btn{background:#b8954b;color:#fff;border:none;border-radius:40px;padding:8px 24px;font-size:13px;letter-spacing:.5px;cursor:pointer;transition:.2s;}
+  .lb-btn:hover{background:#1a1a1a;}
+
+  /* CONTACT */
+  .contact-row{display:flex;gap:14px;margin-bottom:16px;}
+  .contact-row:last-child{margin-bottom:0;}
+  .c-icon{font-size:18px;flex-shrink:0;}
+  .c-label{font-size:11px;letter-spacing:1.5px;color:#b8954b;text-transform:uppercase;font-weight:600;margin-bottom:2px;}
+  .c-value{font-size:14px;color:#3d3d3d;line-height:1.6;}
+  .c-value a{color:#b8954b;text-decoration:none;}
+
+  /* FOOTER */
+  .footer{background:#ece8e1;padding:44px 0;margin-top:20px;border-top:1px solid #d6cdbc;text-align:center;color:#4a4a4a;}
+  .footer .quote{font-style:italic;color:#b8954b;margin-top:10px;font-size:14px;}
+
+  @media(max-width:900px){.grid-2{grid-template-columns:1fr;}}
+  @media(max-width:768px){.container{padding:0 20px;}.hero h1{font-size:34px;}.section-title{font-size:24px;}}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav class="navbar">
+  <div class="container nav-container">
+    <a href="#" class="logo" style="display:flex;align-items:center;gap:10px;" onclick="showPanel('home', document.getElementById('nav-home'));return false;">
+      <img src="india_canada_flags_logo.png" alt="Canada-India Institutional Co-Operation Project" style="height:36px;width:auto;" onerror="this.style.display='none'">
+      CIICP · SPCU — PSG-PTC
+    </a>
+    <div class="nav-links">
+      <a onclick="showPanel('home', this)" class="active-nav" id="nav-home">HOME</a>
+      <a onclick="showPanel('about', this)">ABOUT</a>
+      <a onclick="showPanel('mis', this)">MIS</a>
+      <a onclick="showPanel('iii', this)">III</a>
+      <a onclick="showPanel('ss', this)">SS</a>
+      <a onclick="showPanel('edc', this)">EDC</a>
+      <a onclick="showPanel('wdc', this)">WDC</a>
+      <a onclick="showPanel('ed', this)">ED</a>
+      <a href="https://psgpolytech.ac.in/STPDC/" target="_blank">STPDC</a>
+      <a onclick="showPanel('newsletter', this)">ANNUAL NEWS LETTER</a>
+      <a onclick="showPanel('gallery', this)">GALLERY</a>
+      <a onclick="showPanel('contact', this)">CONTACT</a>
+    </div>
+  </div>
+</nav>
+
+<!-- HERO (Home only) -->
+<section class="hero" id="hero-block">
+  <div class="container">
+    <div class="badge">CIICP · SPCU</div>
+    <h1>Institutional Co-Operation &amp; Planning Unit</h1>
+    <div class="gold-line"></div>
+    <p>Canada-India Institutional Co-Operation Project — strengthening Industry-Institute Interaction, Student Services, Environment and Women Development, and Entrepreneurship at PSG Polytechnic College.</p>
+    <div class="stats-row">
+      <span class="tag tag-gold">Est. 1991</span>
+      <span class="tag">6 Cells</span>
+      <span class="tag">8 Polytechnics — Phase I &amp; II</span>
+    </div>
+  </div>
+</section>
+
+<div class="container">
+
+<!-- ===================== HOME ===================== -->
+<div class="panel active" id="panel-home">
+
+  <div class="section">
+    <h2 class="section-title">About PSG-PTC</h2>
+    <div class="grid-2">
+      <div class="card">
+        <div class="team-photo" style="aspect-ratio:4/3;border-radius:14px;display:flex;align-items:center;justify-content:center;">
+          <img src="https://psgpolytech.ac.in/SPCU/LOGO.png" alt="PSG Polytechnic College" loading="lazy" style="max-width:60%;max-height:60%;object-fit:contain;" onerror="this.parentElement.style.background='#eae4dc'">
+        </div>
+      </div>
+      <div class="card">
+        <p class="about-text">PSG Polytechnic College, established in the year <strong>1939</strong>, a pioneer institute in the field of Technical Education and Research is a Government aided, <strong>ISO 9001 certified</strong> institution with Autonomous status from 1976.</p>
+        <p class="about-text">This aids it to have a flexible curriculum and updated syllabi. The Polytechnic College has the best laboratories with free access to the students and prepares them with the latest method of learning industrial practices.</p>
+        <p class="about-text">The industry attachment programme, compulsory for all courses, provides the students an exposure for current industrial practices. The college is located in the same campus as the PSG Industrial Institute.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <h2 class="section-title">About CIICP</h2>
+    <div class="grid-2">
+      <div class="card">
+        <div class="team-photo" style="aspect-ratio:4/3;border-radius:14px;">
+          <img src="https://psgpolytech.ac.in/SPCU/CIICP.png" alt="CIICP" loading="lazy" onerror="this.parentElement.style.background='#eae4dc'">
+        </div>
+      </div>
+      <div class="card">
+        <p class="about-text">The <strong>Canada-India Institutional Co-Operation Project (CIICP)</strong> is a Human Resource Development project initiated during the year <strong>1991</strong> through a Memorandum of Understanding signed between the Government of India and the Government of Canada.</p>
+        <p class="about-text">The project was initially financed by the Canadian International Development Agency. The overall project strategies were evolved by the association of Canadian Community Colleges and the Ministry of Human Resource Development, Government of India.</p>
+        <p class="about-text">The project was handled by Canadian experts and the CIICP activities were implemented in <strong>8 Polytechnic colleges in Tamil Nadu</strong> under Phase I &amp; II. In <strong>March 1999</strong>, the Canadians handed over the project to the Indian counterparts to sustain and replicate the initiatives in the state.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <h2 class="section-title">Cells Under CIICP</h2>
+    <div class="grid-auto-6">
+      <div class="card cell-card" onclick="showPanel('mis', document.querySelector('.nav-links a[onclick*=mis]'))">
+        <div class="cell-abbr">MIS</div>
+        <div class="cell-name">Management Information System</div>
+      </div>
+      <div class="card cell-card" onclick="showPanel('iii', document.querySelector('.nav-links a[onclick*=iii]'))">
+        <div class="cell-abbr">III</div>
+        <div class="cell-name">Industry-Institute Interaction</div>
+      </div>
+      <div class="card cell-card" onclick="showPanel('ss', document.querySelector('.nav-links a[onclick*=ss]'))">
+        <div class="cell-abbr">SS</div>
+        <div class="cell-name">Student Services</div>
+      </div>
+      <div class="card cell-card" onclick="showPanel('edc', document.querySelector('.nav-links a[onclick*=edc]'))">
+        <div class="cell-abbr">EDC</div>
+        <div class="cell-name">Environment Development</div>
+      </div>
+      <div class="card cell-card" onclick="showPanel('wdc', document.querySelector('.nav-links a[onclick*=wdc]'))">
+        <div class="cell-abbr">WDC</div>
+        <div class="cell-name">Women in Development</div>
+      </div>
+      <div class="card cell-card" onclick="showPanel('ed', document.querySelector('.nav-links a[onclick*=\\'ed\\']'))">
+        <div class="cell-abbr">ED</div>
+        <div class="cell-name">Entrepreneurship Development</div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- ===================== ABOUT (standalone panel, same content as home about) ===================== -->
+<div class="panel" id="panel-about">
+  <div class="breadcrumb">Home <span>›</span> About</div>
+  <div class="section">
+    <h2 class="section-title">About PSG-PTC</h2>
+    <div class="card">
+      <p class="about-text">PSG Polytechnic College, established in the year <strong>1939</strong>, a pioneer institute in the field of Technical Education and Research is a Government aided, ISO 9001 certified institution with Autonomous status from 1976. This aids it to have a flexible curriculum and updated syllabi.</p>
+      <p class="about-text">The Polytechnic College has the best laboratories with free access to the students and prepares them with the latest method of learning industrial practices. The industry attachment programme, compulsory for all courses, provides the students an exposure for current industrial practices.</p>
+      <p class="about-text">The college is located in the same campus as the PSG Industrial Institute.</p>
+    </div>
+  </div>
+  <div class="section">
+    <h2 class="section-title">About CIICP</h2>
+    <div class="card">
+      <p class="about-text">The Canada-India Institutional Co-Operation Project (CIICP) is a Human Resource Development project initiated during the year <strong>1991</strong> through a Memorandum of Understanding signed between the Government of India and the Government of Canada. The project was initially financed by the Canadian International Development Agency.</p>
+      <p class="about-text">The overall project strategies were evolved by the association of Canadian Community Colleges and the Ministry of Human Resource Development, Government of India. The project was handled by Canadian experts and the CIICP activities were implemented in <strong>8 Polytechnic colleges in Tamil Nadu</strong> under Phase I &amp; II.</p>
+      <p class="about-text">In <strong>March 1999</strong>, the Canadians handed over the project to the Indian counterparts to sustain and replicate the initiatives in the state.</p>
+    </div>
+  </div>
+</div>
+
+<!-- ===================== MIS ===================== -->
+<div class="panel" id="panel-mis">
+  <div class="breadcrumb">Home <span>›</span> MIS — Management Information System</div>
+  <div class="section">
+    <h2 class="section-title">MIS — Management Information System</h2>
+    <div class="card">
+      <p class="about-text">Management Information Systems (MIS) in college streamline data collection, storage, and analysis to support administrative and academic functions. These systems manage student records, facilitate course registration, oversee financial operations, and enhance communication within the college community.</p>
+      <p class="about-text">MIS provides decision support through analytics and reporting, ensuring efficient resource allocation and strategic planning. Security and privacy measures safeguard sensitive data, and ongoing integration and improvements adapt to evolving needs, making MIS integral to the efficient and effective management of educational institutions.</p>
+    </div>
+  </div>
+  <div class="section">
+    <h2 class="section-title">Objectives</h2>
+    <div class="grid-auto-3">
+      <div class="card book-card">
+        <div class="book-acc">2020 – 2021</div>
+        <div class="book-title">Provide data bank and computerize all the major activities of the institution</div>
+        <a class="link-row" href="https://psgpolytech.ac.in/SPCU/MIS/MIS%20strategic%20plan%20old.pdf" target="_blank"><span>Learn More</span><span class="link-row-arrow">→</span></a>
+      </div>
+      <div class="card book-card">
+        <div class="book-acc">2021 – 2022</div>
+        <div class="book-title">Provide data bank and computerize all the major activities of the institution</div>
+        <a class="link-row" href="https://psgpolytech.ac.in/SPCU/MIS/MIS%20Strategic%20Plan%202021-22.pdf" target="_blank"><span>Learn More</span><span class="link-row-arrow">→</span></a>
+      </div>
+      <div class="card book-card">
+        <div class="book-acc">2022 – 2023</div>
+        <div class="book-title">Provide data bank and computerize all the major activities of the institution</div>
+        <a class="link-row" href="https://psgpolytech.ac.in/SPCU/MIS/MIS%20Strategic%20Plan%202022-23.pdf" target="_blank"><span>Learn More</span><span class="link-row-arrow">→</span></a>
+      </div>
+    </div>
+  </div>
+  <div class="section">
+    <h2 class="section-title">Members</h2>
+    <div class="grid-auto-3" id="mis-team"></div>
+  </div>
+  <div class="section">
+    <h2 class="section-title">MIS Roles</h2>
+    <div class="card">
+      <p class="about-text">Click below to view the roles of MIS.</p>
+      <a class="link-row" href="https://psgpolytech.ac.in/SPCU/MIS/MIS%20Roles.pdf" target="_blank"><span>Click Here</span><span class="link-row-arrow">→</span></a>
+    </div>
+  </div>
+</div>
+
+<!-- ===================== III ===================== -->
+<div class="panel" id="panel-iii">
+  <div class="breadcrumb">Home <span>›</span> III — Industry-Institute Interaction</div>
+  <div class="section">
+    <h2 class="section-title">III — Industry-Institute Interaction</h2>
+    <div class="card">
+      <p class="about-text">Industry-institute interaction in college fosters practical skill development, aligns curricula with industry trends, and promotes research collaborations. It enhances students' employability by providing real-world exposure through internships and guest lectures.</p>
+      <p class="about-text">Faculty engagement in consultancy and research projects bolsters expertise and networking opportunities, ultimately bridging the gap between education and industry, benefiting both.</p>
+    </div>
+  </div>
+  <div class="section">
+    <h2 class="section-title">Activities</h2>
+    <div class="grid-auto-3">
+      <div class="card book-card">
+        <div class="book-acc">MoU Signed · 2021 – 2023</div>
+        <div class="book-title">Click below to view the departments and companies' interaction</div>
+        <a class="link-row" href="https://psgpolytech.ac.in/SPCU/III/MOU%20SIGNED.pdf" target="_blank"><span>Learn More</span><span class="link-row-arrow">→</span></a>
+      </div>
+      <div class="card book-card">
+        <div class="book-acc">Guest Lecture Organized · 2021 – 2022</div>
+        <div class="book-title">Click below to view the guest lectures conducted by the appropriate departments</div>
+        <a class="link-row" href="https://psgpolytech.ac.in/SPCU/III/GUEST%20LECTURE%20ORGANIZED.pdf" target="_blank"><span>Learn More</span><span class="link-row-arrow">→</span></a>
+      </div>
+      <div class="card book-card">
+        <div class="book-acc">Industrial Visit · 2021 – 2023</div>
+        <div class="book-title">Click below to view the departments that visited industry from 2021 to 2023</div>
+        <a class="link-row" href="https://psgpolytech.ac.in/SPCU/III/INDUSTRIAL%20VISIT%20.pdf" target="_blank"><span>Learn More</span><span class="link-row-arrow">→</span></a>
+      </div>
+    </div>
+  </div>
+  <div class="section">
+    <h2 class="section-title">Members</h2>
+    <div class="grid-auto-3" id="iii-team"></div>
+  </div>
+</div>
+
+<!-- ===================== SS ===================== -->
+<div class="panel" id="panel-ss">
+  <div class="breadcrumb">Home <span>›</span> SS — Student Services</div>
+  <div class="section">
+    <h2 class="section-title">SS — Student Services</h2>
+    <div class="card">
+      <p class="about-text">Student services in college encompass academic advising, mental health support, career guidance, extracurricular activities, and financial aid assistance. These services aim to enhance students' overall college experience, providing both academic and personal support.</p>
+      <p class="about-text">Whether it's counseling, club participation, or access to resources, these offerings contribute to a well-rounded education and student well-being.</p>
+    </div>
+  </div>
+  <div class="section">
+    <h2 class="section-title">Activities</h2>
+    <div class="grid-auto-3">
+      <div class="card book-card">
+        <div class="book-acc">Student Activities</div>
+        <div class="book-title">Click below to view students' activities</div>
+        <a class="link-row" href="https://psgpolytech.ac.in/SPCU/SS/STUDENT%20SERVICES.pdf" target="_blank"><span>Learn More</span><span class="link-row-arrow">→</span></a>
+      </div>
+    </div>
+  </div>
+  <div class="section">
+    <h2 class="section-title">Members</h2>
+    <div class="grid-auto-3" id="ss-team"></div>
+  </div>
+</div>
+
+<!-- ===================== EDC ===================== -->
+<div class="panel" id="panel-edc">
+  <div class="breadcrumb">Home <span>›</span> EDC — Environment Development</div>
+  <div class="section">
+    <h2 class="section-title">EDC — Environment Development</h2>
+    <div class="card">
+      <p class="about-text">Environmental development involves sustainable practices like reducing pollution, conserving resources, and promoting renewable energy. It encompasses urban planning, waste management, and green infrastructure.</p>
+      <p class="about-text">Collaboration among stakeholders is vital for long-term sustainability and climate change mitigation. It seeks to balance human activities with ecosystem preservation for future generations.</p>
+    </div>
+  </div>
+  <div class="section">
+    <h2 class="section-title">Activities</h2>
+    <div class="grid-auto-3">
+      <div class="card book-card">
+        <div class="book-acc">Events</div>
+        <div class="book-title">Click below to view the events conducted by the EDC Club</div>
+        <a class="link-row" href="https://psgpolytech.ac.in/SPCU/EDC/EDC.pdf" target="_blank"><span>Learn More</span><span class="link-row-arrow">→</span></a>
+      </div>
+    </div>
+  </div>
+  <div class="section">
+    <h2 class="section-title">Members</h2>
+    <div class="grid-auto-3" id="edc-team"></div>
+  </div>
+</div>
+
+<!-- ===================== WDC ===================== -->
+<div class="panel" id="panel-wdc">
+  <div class="breadcrumb">Home <span>›</span> WDC — Women in Development</div>
+  <div class="section">
+    <h2 class="section-title">WDC — Women in Development</h2>
+    <div class="card">
+      <p class="about-text">"Women in Development" is an approach that recognizes the critical role of women in economic, social, and environmental progress. It promotes gender equality and women's empowerment as integral to development efforts.</p>
+      <p class="about-text">This approach emphasizes women's access to education, healthcare, economic opportunities, and decision-making roles. It aims to address gender disparities and harness the potential of women to contribute significantly to development outcomes. Policies and programs that support women's rights and well-being are central to this approach.</p>
+    </div>
+  </div>
+  <div class="section">
+    <h2 class="section-title">Activities</h2>
+    <div class="grid-auto-3">
+      <div class="card book-card">
+        <div class="book-acc">Events</div>
+        <div class="book-title">Click below to view the events conducted by the WDC Club</div>
+        <a class="link-row" href="https://psgpolytech.ac.in/SPCU/WDC/WDC.pdf" target="_blank"><span>Learn More</span><span class="link-row-arrow">→</span></a>
+      </div>
+    </div>
+  </div>
+  <div class="section">
+    <h2 class="section-title">Members</h2>
+    <div class="grid-auto-3" id="wdc-team"></div>
+  </div>
+</div>
+
+<!-- ===================== ED ===================== -->
+<div class="panel" id="panel-ed">
+  <div class="breadcrumb">Home <span>›</span> ED — Entrepreneurship Development</div>
+  <div class="section">
+    <h2 class="section-title">ED — Entrepreneurship Development</h2>
+    <div class="card">
+      <p class="about-text">Entrepreneurship development involves fostering an entrepreneurial mindset, skills, and opportunities to stimulate economic growth and innovation. It includes providing resources, mentorship, and training to aspiring entrepreneurs.</p>
+      <p class="about-text">Successful entrepreneurship can lead to job creation, increased competitiveness, and the generation of new products or services. Government policies and support programs often play a crucial role in facilitating entrepreneurship development. Collaboration between academia, industry, and government can further accelerate entrepreneurship ecosystems.</p>
+    </div>
+  </div>
+  <div class="section">
+    <h2 class="section-title">Activities</h2>
+    <div class="grid-auto-3">
+      <div class="card book-card">
+        <div class="book-acc">Events</div>
+        <div class="book-title">Click below to view the events conducted by the ED Club</div>
+        <a class="link-row" href="https://psgpolytech.ac.in/SPCU/ED/ED.pdf" target="_blank"><span>Learn More</span><span class="link-row-arrow">→</span></a>
+      </div>
+    </div>
+  </div>
+  <div class="section">
+    <h2 class="section-title">Members</h2>
+    <div class="grid-auto-3" id="ed-team"></div>
+  </div>
+</div>
+
+<!-- ===================== ANNUAL NEWSLETTER ===================== -->
+<div class="panel" id="panel-newsletter">
+  <div class="breadcrumb">Home <span>›</span> Annual News Letter</div>
+  <div class="section">
+    <h2 class="section-title">Annual News Letter</h2>
+    <div class="grid-auto-3">
+      <div class="card">
+        <div class="book-title">2018 – 2019</div>
+        <a class="link-row" href="https://psgpolytech.ac.in/SPCU/ANT/2018%20-%202019.pdf" target="_blank"><span>Click Here</span><span class="link-row-arrow">→</span></a>
+      </div>
+      <div class="card">
+        <div class="book-title">2020 – 2021</div>
+        <a class="link-row" href="https://psgpolytech.ac.in/SPCU/ANT/2020-2021.pdf" target="_blank"><span>Click Here</span><span class="link-row-arrow">→</span></a>
+      </div>
+      <div class="card">
+        <div class="book-title">2021 – 2022</div>
+        <a class="link-row" href="https://psgpolytech.ac.in/SPCU/ANT/2021-2022.pdf" target="_blank"><span>Click Here</span><span class="link-row-arrow">→</span></a>
+      </div>
+      <div class="card">
+        <div class="book-title">2022 – 2023</div>
+        <a class="link-row" href="https://psgpolytech.ac.in/SPCU/ANT/WEB-ANNUAL%20NEWS%20LETTER-SPCU(22-23).pdf" target="_blank"><span>Click Here</span><span class="link-row-arrow">→</span></a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ===================== GALLERY ===================== -->
+<div class="panel" id="panel-gallery">
+  <div class="breadcrumb">Home <span>›</span> Gallery</div>
+  <div class="section">
+    <h2 class="section-title">Gallery</h2>
+    <div class="grid-auto-3" id="photoGrid"></div>
+  </div>
+</div>
+
+<!-- ===================== CONTACT ===================== -->
+<div class="panel" id="panel-contact">
+  <div class="breadcrumb">Home <span>›</span> Contact</div>
+  <div class="section">
+    <h2 class="section-title">Contact</h2>
+    <div class="grid-2">
+      <div class="card">
+        <div class="contact-row">
+          <div class="c-icon">👤</div>
+          <div>
+            <div class="c-label">Coordinator</div>
+            <div class="c-value">Dr. V. Mohan Sivakumar<br>HoD, Department of Mechanical Engineering</div>
+          </div>
+        </div>
+        <div class="contact-row">
+          <div class="c-icon">🏫</div>
+          <div>
+            <div class="c-label">Institution</div>
+            <div class="c-value">PSG Polytechnic College</div>
+          </div>
+        </div>
+        <div class="contact-row">
+          <div class="c-icon">📍</div>
+          <div>
+            <div class="c-label">Address</div>
+            <div class="c-value">Peelamedu, Coimbatore – 641004, Tamil Nadu, India</div>
+          </div>
+        </div>
+        <div class="contact-row">
+          <div class="c-icon">✉️</div>
+          <div>
+            <div class="c-label">Email</div>
+            <div class="c-value"><a href="https://psgpolytech.ac.in/SPCU/#III">Contact via college website</a></div>
+          </div>
+        </div>
+      </div>
+      <div class="card">
+        <iframe class="map-frame" style="width:100%;height:280px;border:0;border-radius:14px;" src="https://www.google.com/maps?q=PSG+Polytechnic+College+Peelamedu+Coimbatore&output=embed" loading="lazy"></iframe>
+      </div>
+    </div>
+  </div>
+</div>
+
+</div>
+
+<!-- LIGHTBOX -->
+<div class="lightbox" id="photoLightbox" onclick="closePhotoLightboxOnBg(event)">
+  <div class="lightbox-inner">
+    <span class="lightbox-close" onclick="closePhotoLightbox()">&times;</span>
+    <img id="photoLbImg" src="" alt="Gallery photo">
+    <div class="lightbox-nav">
+      <button class="lb-btn" onclick="photoLbNavigate(-1)">‹ Prev</button>
+      <button class="lb-btn" onclick="photoLbNavigate(1)">Next ›</button>
+    </div>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <div class="container">
+    <p>© 2026 PSG Polytechnic College. All Rights Reserved.</p>
+    <div class="quote">"Let there be charity so that others can share my family's prosperity" — Shri P S Govindaswamy Naidu</div>
+  </div>
+</footer>
+
+<script>
+  /* ---------- TEAM DATA ---------- */
+  const teams = {
+    'mis-team': [
+      {name:'Mr A Kathiresan', role:'Manager', qual:'HoD, DIT'},
+      {name:'Ms T P Kamatchi', role:'Member', qual:'DCN'},
+      {name:'Dr A Sivakumar', role:'Member', qual:'DTT'},
+      {name:'Ms P Thilakaveni', role:'Member', qual:'DCE'},
+      {name:'Ms B Divya', role:'Member', qual:'Maths'},
+      {name:'Ms G Preethi', role:'Member', qual:'DIT'}
+    ],
+    'iii-team': [
+      {name:'Dr S Shanmugasundaram', role:'Manager', qual:'HoD, DAE'},
+      {name:'Ms G Sathyabama', role:'Back up Manager', qual:'DECE'},
+      {name:'Ms P Abirami', role:'Member', qual:'DCN'},
+      {name:'Mr R Anguraj', role:'Member', qual:'DME'},
+      {name:'Mr P Senthil Kumar', role:'Member', qual:'DFT'},
+      {name:'Mr G Nirmalkumar', role:'Member', qual:'DME'},
+      {name:'Mr K Saravana Kumar', role:'Member', qual:'DAE'}
+    ],
+    'ss-team': [
+      {name:'Dr R Selladurai', role:'Manager', qual:'DME'},
+      {name:'Mr M Suresh', role:'Back up Manager', qual:'DME'},
+      {name:'Mr N Sridhar', role:'Member', qual:'DECE'},
+      {name:'Dr S Padmanaban', role:'Member', qual:'DME'},
+      {name:'Ms R Brindha', role:'Member', qual:'DTT'},
+      {name:'Mr A Kamaraj', role:'Member', qual:'Maths'},
+      {name:'Mr D Arul Kumar', role:'Member', qual:'DAE'}
+    ],
+    'edc-team': [
+      {name:'Dr V Chandrasekaran', role:'Manager', qual:'DAT'},
+      {name:'Mr A N Saikrishnan', role:'Back up Manager', qual:'DME'},
+      {name:'Ms A Jacquline Dorothy', role:'Member', qual:'Science'},
+      {name:'Mr A Nagaraj', role:'Member', qual:'DME'},
+      {name:'Mr N Thampiraj', role:'Member', qual:'Maths'},
+      {name:'Ms G Aishwaryalakshmi', role:'Member', qual:'DCE'},
+      {name:'Ms R Karuvelaselvi', role:'Member', qual:'DAT'}
+    ],
+    'wdc-team': [
+      {name:'Dr S Sharmila', role:'Manager', qual:'ECE'},
+      {name:'Ms S Valarmathi', role:'Back up Manager', qual:'DEEE'},
+      {name:'Dr S Anitha', role:'Member', qual:'Physics'},
+      {name:'Ms T Shanantha', role:'Member', qual:'English'},
+      {name:'Ms R Annie Karunya', role:'Member', qual:'DIT'},
+      {name:'Ms U Vennila', role:'Member', qual:'DTT'},
+      {name:'Ms V Archana', role:'Member', qual:'Maths'}
+    ],
+    'ed-team': [
+      {name:'Dr M Senthilkumar', role:'Manager', qual:'HoD, DTT'},
+      {name:'Dr A S Pugalenthi', role:'Back up Manager', qual:'Physics'},
+      {name:'Mr B Rajesh', role:'Member', qual:'DME'},
+      {name:'Mr K Mohanganesh', role:'Member', qual:'DFT'},
+      {name:'Ms D Kavitha', role:'Member', qual:'Chemistry'},
+      {name:'Mr R Gokulakrishnan', role:'Member', qual:'DAE'},
+      {name:'Mr R Kailasam', role:'Member', qual:'DME'}
+    ]
+  };
+  Object.keys(teams).forEach(gridId=>{
+    const grid = document.getElementById(gridId);
+    if(!grid) return;
+    teams[gridId].forEach(m=>{
+      const c = document.createElement('div');
+      c.className = 'card team-card';
+      c.innerHTML = `<div class="team-name">${m.name}</div><div class="team-role">${m.role}</div><div class="team-qual">${m.qual}</div>`;
+      grid.appendChild(c);
+    });
+  });
+
+  /* ---------- GALLERY ---------- */
+  const photos = [
+    "https://psgpolytech.ac.in/SPCU/assets/img/1.JPG",
+    "https://psgpolytech.ac.in/SPCU/assets/img/2.jpg",
+    "https://psgpolytech.ac.in/SPCU/assets/img/4.png"
+  ];
+  let photoIndex = 0;
+  function renderPhotos(){
+    const grid = document.getElementById('photoGrid');
+    if(!grid) return;
+    photos.forEach((src, i)=>{
+      const c = document.createElement('div');
+      c.className = 'card photo-card';
+      c.onclick = ()=> openPhotoLightbox(i);
+      c.innerHTML = `<div class="photo-thumb"><img src="${src}" alt="CIICP gallery photo ${i+1}" loading="lazy" onerror="this.parentElement.style.background='#1a1a1a'"></div>`;
+      grid.appendChild(c);
+    });
+  }
+  function openPhotoLightbox(i){
+    photoIndex = i;
+    document.getElementById('photoLbImg').src = photos[i];
+    document.getElementById('photoLightbox').classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+  function closePhotoLightbox(){
+    document.getElementById('photoLightbox').classList.remove('open');
+    document.body.style.overflow = 'auto';
+  }
+  function closePhotoLightboxOnBg(e){
+    if(e.target === document.getElementById('photoLightbox')) closePhotoLightbox();
+  }
+  function photoLbNavigate(dir){
+    photoIndex = (photoIndex + dir + photos.length) % photos.length;
+    openPhotoLightbox(photoIndex);
+  }
+  document.addEventListener('keydown', e=>{
+    const lb = document.getElementById('photoLightbox');
+    if(!lb || !lb.classList.contains('open')) return;
+    if(e.key === 'Escape') closePhotoLightbox();
+    if(e.key === 'ArrowRight') photoLbNavigate(1);
+    if(e.key === 'ArrowLeft') photoLbNavigate(-1);
+  });
+  renderPhotos();
+
+  /* ---------- NAV LOGIC ---------- */
+  function showPanel(panelId, clickedLink){
+    document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));
+    const panel = document.getElementById('panel-' + panelId);
+    if(panel) panel.classList.add('active');
+
+    document.getElementById('hero-block').style.display = (panelId === 'home') ? '' : 'none';
+
+    document.querySelectorAll('.nav-links > a').forEach(a=>a.classList.remove('active-nav'));
+    if(clickedLink) clickedLink.classList.add('active-nav');
+    if(panelId === 'home') document.getElementById('nav-home').classList.add('active-nav');
+
+    window.scrollTo({top:0, behavior:'smooth'});
+  }
+</script>
+
+</body>
+</html>
